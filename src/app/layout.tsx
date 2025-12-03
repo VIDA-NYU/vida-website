@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VIDA Lab",
-  description: "Visual, Interactive, and Data-driven Analytics Lab",
+  title: "VIDA - Visualization and Data Analytics Center",
+  description: "The Visualization and Data Analytics Research Center at NYU Tandon School of Engineering. We work in the areas of Visualization, Imaging and Data Analysis.",
 };
 
 export default function RootLayout({

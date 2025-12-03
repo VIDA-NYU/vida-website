@@ -8,7 +8,7 @@ type Props = {
 
 export function ResearchAreasSection({ areas }: Props) {
   return (
-    <SectionShell title="Research" eyebrow="Areas">
+    <SectionShell title="Research" eyebrow="Areas" theme="research">
       <p>
         Our work spans visualization, imaging, and data analysis. These areas
         are tightly connected and often come together in interdisciplinary

@@ -45,6 +45,46 @@ function getInitials(name: string): string {
   return (parts[0]!.charAt(0) + parts[parts.length - 1]!.charAt(0)).toUpperCase();
 }
 
+// Generate a consistent color based on name
+function getAvatarColor(name: string): string {
+  const colors = [
+    "from-sky-500 to-cyan-500",
+    "from-violet-500 to-purple-500",
+    "from-emerald-500 to-teal-500",
+    "from-orange-500 to-amber-500",
+    "from-pink-500 to-rose-500",
+    "from-blue-500 to-indigo-500",
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return colors[Math.abs(hash) % colors.length]!;
+}
+
+function PersonAvatar({ person, size = "md" }: { person: Person; size?: "sm" | "md" }) {
+  const sizeClasses = size === "sm" ? "h-8 w-8 text-[10px]" : "h-10 w-10 text-xs";
+  const imgSize = size === "sm" ? 32 : 40;
+  
+  if (person.image) {
+    return (
+      <Image
+        src={person.image}
+        alt={person.name}
+        width={imgSize}
+        height={imgSize}
+        className={`${sizeClasses} object-cover`}
+      />
+    );
+  }
+  
+  return (
+    <div className={`flex ${sizeClasses} items-center justify-center bg-gradient-to-br ${getAvatarColor(person.name)} font-semibold text-white`}>
+      {getInitials(person.name)}
+    </div>
+  );
+}
+
 export function PeopleGrid({ people }: Props) {
   const groups = groupByLab(people);
   const labs = Object.keys(groups);
@@ -56,7 +96,7 @@ export function PeopleGrid({ people }: Props) {
   }, {});
 
   return (
-    <SectionShell title="Lab Atlas" eyebrow="People & Labs">
+    <SectionShell title="Lab Atlas" eyebrow="People & Labs" theme="people">
       <p>
         A snapshot of the people and lab clusters that make up this space. The
         collage for each lab gives a quick visual sense of who is there.
@@ -82,29 +122,20 @@ export function PeopleGrid({ people }: Props) {
                   {group.slice(0, 7).map((person, index) => (
                     <div
                       key={person.slug}
-                      className="h-8 w-8 overflow-hidden rounded-full border border-zinc-900 bg-zinc-900"
+                      className="h-8 w-8 overflow-hidden rounded-full border-2 border-zinc-900 bg-zinc-900"
                       style={{ zIndex: group.length - index }}
                     >
-                      <Image
-                        src={
-                          person.image ??
-                          "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=2"
-                        }
-                        alt={person.name}
-                        width={32}
-                        height={32}
-                        className="h-8 w-8 object-cover"
-                      />
+                      <PersonAvatar person={person} size="sm" />
                     </div>
                   ))}
                   {group.length > 7 && (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-[10px] text-zinc-300">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-zinc-700 bg-zinc-900 text-[10px] text-zinc-300">
                       +{group.length - 7}
                     </div>
                   )}
                 </div>
                 <span className="rounded-full bg-sky-500/10 px-2 py-0.5 text-[10px] font-medium text-sky-200">
-                  Lab collage
+                  {group.length} members
                 </span>
               </div>
             </section>
@@ -125,25 +156,16 @@ export function PeopleGrid({ people }: Props) {
                 {group.map((person) => (
                   <article
                     key={person.slug}
-                    className="flex flex-col rounded-2xl border border-zinc-800 bg-zinc-950/80 p-4 text-sm shadow-sm"
+                    className="group flex flex-col rounded-2xl border border-zinc-800 bg-zinc-950/80 p-4 text-sm shadow-sm transition-all duration-200 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-900/10"
                   >
                     <header className="flex items-start gap-3">
                       <div className="mt-0.5 h-10 w-10 overflow-hidden rounded-full bg-zinc-900">
                         {hideAvatar ? (
-                          <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-zinc-200">
+                          <div className={`flex h-full w-full items-center justify-center text-xs font-semibold text-white bg-gradient-to-br ${getAvatarColor(person.name)}`}>
                             {getInitials(person.name)}
                           </div>
                         ) : (
-                          <Image
-                            src={
-                              person.image ??
-                              "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=2"
-                            }
-                            alt={person.name}
-                            width={40}
-                            height={40}
-                            className="h-10 w-10 object-cover"
-                          />
+                          <PersonAvatar person={person} size="md" />
                         )}
                       </div>
                       <h3 className="text-sm font-semibold tracking-tight text-zinc-50">

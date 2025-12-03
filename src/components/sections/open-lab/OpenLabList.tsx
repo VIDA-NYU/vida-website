@@ -1,90 +1,160 @@
+"use client";
+
 import { SectionShell } from "@/components/layout/SectionShell";
 import type { OpenLabResource, OpenLabKind } from "@/lib/open-lab";
 import Link from "next/link";
+import { useState } from "react";
 
 type Props = {
   resources: OpenLabResource[];
 };
 
-const KIND_LABEL: Record<OpenLabKind, string> = {
-  dataset: "Datasets",
-  repository: "Repositories",
-  software: "Software",
+const KIND_CONFIG: Record<OpenLabKind, { label: string; icon: string; color: string; bgGradient: string }> = {
+  software: { 
+    label: "Software", 
+    icon: "⚡", 
+    color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+    bgGradient: "from-cyan-500/20 via-cyan-500/5 to-transparent"
+  },
+  repository: { 
+    label: "Repositories", 
+    icon: "📦", 
+    color: "text-violet-400 border-violet-500/30 bg-violet-500/10",
+    bgGradient: "from-violet-500/20 via-violet-500/5 to-transparent"
+  },
+  dataset: { 
+    label: "Datasets", 
+    icon: "📊", 
+    color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+    bgGradient: "from-amber-500/20 via-amber-500/5 to-transparent"
+  },
 };
 
+function ResourceCard({ item }: { item: OpenLabResource }) {
+  const config = KIND_CONFIG[item.kind];
+  
+  return (
+    <article className="group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/80 transition-all duration-300 hover:border-cyan-500/40 hover:shadow-lg hover:shadow-cyan-900/20">
+      {/* Gradient accent */}
+      <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${config.bgGradient}`} />
+      
+      <div className="p-4">
+        <div className="flex items-start gap-3">
+          <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${config.color} text-lg`}>
+            {config.icon}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="text-sm font-semibold tracking-tight text-zinc-50 group-hover:text-cyan-300 transition-colors">
+                {item.title}
+              </h3>
+              <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${config.color}`}>
+                {config.label}
+              </span>
+            </div>
+            <p className="mt-0.5 text-[11px] text-zinc-500">
+              {item.area ?? "Cross-cutting"}
+            </p>
+          </div>
+        </div>
+        
+        {item.summary && (
+          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-zinc-400">
+            {item.summary}
+          </p>
+        )}
+        
+        <div className="mt-3 flex items-center justify-between">
+          <div className="flex flex-wrap gap-1">
+            {item.tags.slice(0, 2).map((tag) => (
+              <span
+                key={tag}
+                className="rounded bg-zinc-800/80 px-1.5 py-0.5 text-[10px] text-zinc-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          {item.link && (
+            <Link
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600 px-3 py-1 text-[11px] font-semibold text-white shadow-lg shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40"
+            >
+              <span>Open</span>
+              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function OpenLabList({ resources }: Props) {
-  const byKind: Record<OpenLabKind, OpenLabResource[]> = {
-    dataset: [],
-    repository: [],
-    software: [],
+  const [activeFilter, setActiveFilter] = useState<OpenLabKind | "all">("all");
+  
+  const filtered = activeFilter === "all" 
+    ? resources 
+    : resources.filter(r => r.kind === activeFilter);
+
+  const counts = {
+    all: resources.length,
+    software: resources.filter(r => r.kind === "software").length,
+    repository: resources.filter(r => r.kind === "repository").length,
+    dataset: resources.filter(r => r.kind === "dataset").length,
   };
 
-  for (const r of resources) {
-    byKind[r.kind].push(r);
-  }
-
   return (
-    <SectionShell title="Open Lab" eyebrow="Code & Datasets">
+    <SectionShell title="Open Lab" eyebrow="Code & Data">
       <p>
-        Mock entries for datasets, repositories, and software that illustrate
-        how the lab could share reproducible artifacts. All content is
-        placeholder and can be replaced later.
+        Open source software, datasets, and repositories developed by the VIDA lab.
+        All resources are freely available for research and education.
       </p>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-3">
-        {(Object.keys(byKind) as OpenLabKind[]).map((kind) => {
-          const list = byKind[kind];
-          if (!list.length) return null;
-
+      {/* Filter tabs */}
+      <div className="mt-6 flex flex-wrap gap-2">
+        {(["all", "software", "repository", "dataset"] as const).map((filter) => {
+          const isActive = activeFilter === filter;
+          const config = filter === "all" ? null : KIND_CONFIG[filter];
+          
           return (
-            <section key={kind} className="space-y-3">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-                {KIND_LABEL[kind]}
-              </h2>
-              <div className="space-y-3 text-xs text-zinc-300">
-                {list.map((item) => (
-                  <article
-                    key={item.slug}
-                    className="rounded-2xl border border-zinc-800 bg-zinc-950/80 p-3 shadow-sm"
-                  >
-                    <h3 className="text-sm font-semibold tracking-tight text-zinc-50">
-                      {item.title}
-                    </h3>
-                    <p className="mt-0.5 text-[11px] text-zinc-400">
-                      {item.area ?? "Cross-cutting"}
-                    </p>
-                    {item.summary ? (
-                      <p className="mt-1 line-clamp-3 text-[11px] leading-relaxed text-zinc-300">
-                        {item.summary}
-                      </p>
-                    ) : null}
-                    <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
-                      {item.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-zinc-900 px-2 py-0.5 text-zinc-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {item.link ? (
-                        <Link
-                          href={item.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-auto inline-flex items-center rounded-full bg-sky-500 px-2.5 py-0.5 font-medium text-zinc-950 transition-colors hover:bg-sky-400"
-                        >
-                          Open
-                        </Link>
-                      ) : null}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+                isActive
+                  ? "border-cyan-500/50 bg-cyan-500/20 text-cyan-300"
+                  : "border-zinc-700 bg-zinc-900/50 text-zinc-400 hover:border-zinc-600 hover:text-zinc-300"
+              }`}
+            >
+              {config && <span>{config.icon}</span>}
+              <span>{filter === "all" ? "All" : config?.label}</span>
+              <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                isActive ? "bg-cyan-500/30" : "bg-zinc-800"
+              }`}>
+                {counts[filter]}
+              </span>
+            </button>
           );
         })}
       </div>
+
+      {/* Resource grid */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((item) => (
+          <ResourceCard key={item.slug} item={item} />
+        ))}
+      </div>
+      
+      {filtered.length === 0 && (
+        <div className="mt-8 rounded-2xl border border-dashed border-zinc-700 p-8 text-center">
+          <p className="text-sm text-zinc-500">No resources found for this category.</p>
+        </div>
+      )}
     </SectionShell>
   );
 }

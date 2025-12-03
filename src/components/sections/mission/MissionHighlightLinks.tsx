@@ -15,7 +15,7 @@ export function MissionHighlightLinks() {
     {
       label: "Open Lab",
       href: "/open-lab",
-      description: "Mock software, datasets, and reproducible artifacts.",
+      description: "Open-source software, datasets, and reproducible artifacts.",
     },
   ];
 

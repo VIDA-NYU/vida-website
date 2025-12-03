@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 type MissionHeroProps = {
@@ -25,15 +24,13 @@ export function MissionHero({ peopleCount, publicationsCount }: MissionHeroProps
             Amplifying understanding.
           </h1>
           <p className="max-w-xl text-sm leading-relaxed text-zinc-300 sm:text-base">
-            VIDA is a lab for visualization and data analytics. We design
-            interactive systems that turn dense, multimodal data into
-            explanations, decisions, and new questions for people across
-            disciplines.
+            The Visualization and Data Analytics Research Center at NYU consists of 
+            computer scientists who work closely with domain experts to apply the 
+            latest advances in computing to problems of critical societal importance.
           </p>
           <p className="max-w-xl text-sm leading-relaxed text-zinc-400">
-            This site is a mission control for our work: research areas,
-            projects, people, demos, and open lab artifacts, all wired together
-            through reusable components and rich content.
+            We work in the areas of Visualization, Imaging and Data Analysis, 
+            generating hypotheses and methods that new data sources and data types demand.
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-zinc-300">
@@ -69,23 +66,19 @@ export function MissionHero({ peopleCount, publicationsCount }: MissionHeroProps
         <div className="relative z-10 flex-1">
           <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-tr from-sky-500/10 via-cyan-400/10 to-emerald-400/5" />
           <div className="relative flex flex-col gap-4 rounded-3xl border border-zinc-800/80 bg-zinc-950/80 p-4 shadow-2xl">
-            <div className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900">
-              <Image
-                src="/mock-assets/images/research/research-01.jpg"
-                alt="Abstract visualization and data analytics background"
-                width={640}
-                height={360}
-                priority
-                className="h-40 w-full object-cover sm:h-52"
-              />
+            <div className="flex h-40 items-center justify-center overflow-hidden rounded-2xl border border-zinc-800/80 bg-gradient-to-br from-sky-950 via-zinc-900 to-zinc-950 sm:h-52">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-sky-500/40">VIDA</div>
+                <div className="mt-1 text-xs text-zinc-500">Visualization • Imaging • Data Analysis</div>
+              </div>
             </div>
             <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-zinc-400">
-              VIDA – Visualization & Data Analytics
+              NYU Tandon School of Engineering
             </p>
             <p className="text-xs text-zinc-300">
-              Built with modern web tooling, this mock homepage demonstrates how
-              the lab&apos;s mission, people, research, and artifacts can be woven
-              together into a coherent, multimodal experience.
+              Co-directed by Professors Claudio Silva and Juliana Freire, VIDA brings 
+              together researchers working on visualization, data management, machine 
+              learning, and urban analytics.
             </p>
           </div>
         </div>

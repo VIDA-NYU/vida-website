@@ -2,24 +2,19 @@ import { SectionShell } from "@/components/layout/SectionShell";
 
 export function AudioDemo() {
   return (
-    <SectionShell title="Audio Demo" eyebrow="Sound">
+    <SectionShell title="SONYC Project" eyebrow="Urban Sound">
       <p>
-        Short audio samples can be embedded directly. This mock segment uses a
-        simple chime and ambient clip from the mock assets library.
+        The SONYC (Sounds of New York City) project uses machine listening to 
+        monitor and analyze urban noise pollution across the city.
       </p>
-      <div className="mt-4 space-y-3 rounded-2xl border border-zinc-800 bg-zinc-950/80 p-4 text-sm text-zinc-200">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-            Chime
-          </p>
-          <audio src="/mock-assets/audio/chime-01.mp3" controls className="mt-1 w-full" />
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-            Ambient
-          </p>
-          <audio src="/mock-assets/audio/ambient-01.mp3" controls className="mt-1 w-full" />
-        </div>
+      <div className="mt-4 aspect-video overflow-hidden rounded-2xl border border-zinc-800 bg-black">
+        <iframe
+          src="https://www.youtube.com/embed/HJ9Bz5VIYxU"
+          title="SONYC - Sounds of New York City"
+          className="h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
       </div>
     </SectionShell>
   );

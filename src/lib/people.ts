@@ -22,20 +22,36 @@ export type Person = {
 
 const PEOPLE_DIR = path.join(process.cwd(), "content", "people");
 
+// Normalize role names to display format
+export function normalizeRole(role: string): string {
+  const roleMap: Record<string, string> = {
+    "faculty": "Faculty",
+    "research-associate": "Research Associate",
+    "student": "Student",
+    "alumni": "Alumni",
+    "staff": "Staff",
+    "collaborator": "Collaborators and Associated Faculty",
+  };
+  return roleMap[role.toLowerCase()] ?? role;
+}
+
 function roleWeight(role: string): number {
-  switch (role) {
-    case "Faculty":
+  const normalized = role.toLowerCase();
+  switch (normalized) {
+    case "faculty":
       return 0;
-    case "Research Associate":
+    case "research-associate":
       return 1;
-    case "Student":
+    case "collaborator":
       return 2;
-    case "Alumni":
+    case "student":
       return 3;
-    case "Staff":
+    case "alumni":
       return 4;
-    default:
+    case "staff":
       return 5;
+    default:
+      return 6;
   }
 }
 
@@ -44,16 +60,20 @@ async function readPersonFile(fileName: string): Promise<Person> {
   const raw = await fs.readFile(filePath, "utf8");
   const { data, content } = matter(raw);
 
+  // Handle empty image strings
+  const rawImage = data.image as string | undefined;
+  const image = rawImage && rawImage.trim() !== "" ? rawImage : undefined;
+
   return {
     slug: data.slug as string,
     name: data.name as string,
-    role: data.role as string,
+    role: normalizeRole(data.role as string),
     position: data.position as string | undefined,
     affiliation: data.affiliation as string | undefined,
     status: (data.status as Person["status"]) ?? "current",
     order: (data.order as number) ?? 0,
     website: data.website as string | undefined,
-    image: data.image as string | undefined,
+    image,
     lab: data.lab as string | undefined,
     researchAreas: (data.researchAreas as string[]) ?? [],
     tags: (data.tags as string[]) ?? [],

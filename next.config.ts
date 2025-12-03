@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "engineering.nyu.edu",
+      },
+      {
+        protocol: "https",
+        hostname: "vida.engineering.nyu.edu",
+      },
     ],
   },
 };
