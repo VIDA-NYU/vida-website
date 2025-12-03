@@ -11,6 +11,9 @@ export type LogEntry = {
   kind: "event" | "news" | "release" | "talk" | "visit";
   summary: string;
   link?: string;
+  image?: string;
+  video?: string;
+  body: string;
 };
 
 const LOG_DIR = path.join(process.cwd(), "content", "log");
@@ -37,6 +40,9 @@ async function readLogFile(fileName: string): Promise<LogEntry> {
     kind,
     summary: (data.summary as string) ?? summaryFromBody,
     link: data.link as string | undefined,
+    image: data.image as string | undefined,
+    video: data.video as string | undefined,
+    body,
   };
 }
 
@@ -50,4 +56,17 @@ export async function getLogEntries(): Promise<LogEntry[]> {
     if (a.date !== b.date) return a.date < b.date ? 1 : -1; // newest first
     return a.title.localeCompare(b.title);
   });
+}
+
+export async function getLogEntryBySlug(slug: string): Promise<LogEntry | null> {
+  const entries = await fs.readdir(LOG_DIR);
+  const mdxFiles = entries.filter((file) => file.endsWith(".mdx"));
+
+  for (const file of mdxFiles) {
+    const entry = await readLogFile(file);
+    if (entry.slug === slug) {
+      return entry;
+    }
+  }
+  return null;
 }

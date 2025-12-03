@@ -15,6 +15,8 @@ export type OpenLabResource = {
   link?: string;
   tags: string[];
   updated: string; // ISO date
+  image?: string;
+  video?: string;
 };
 
 const OPEN_LAB_DIR = path.join(process.cwd(), "content", "open-lab");
@@ -43,6 +45,8 @@ async function readOpenLabFile(fileName: string): Promise<OpenLabResource> {
     link: data.link as string | undefined,
     tags: (data.tags as string[]) ?? [],
     updated: (data.updated as string) ?? (data.date as string) ?? "1970-01-01",
+    image: data.image as string | undefined,
+    video: data.video as string | undefined,
   };
 }
 

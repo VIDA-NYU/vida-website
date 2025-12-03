@@ -17,6 +17,9 @@ export type Publication = {
   tags: PublicationTag[];
   featured?: boolean;
   thumbnail?: string;
+  image?: string;
+  video?: string;
+  abstract?: string;
   body: string;
 };
 
@@ -44,6 +47,9 @@ async function readPublicationFile(fileName: string): Promise<Publication> {
     tags,
     featured: data.featured as boolean | undefined,
     thumbnail: data.thumbnail as string | undefined,
+    image: data.image as string | undefined,
+    video: data.video as string | undefined,
+    abstract: data.abstract as string | undefined,
     body: content.trim(),
   };
 }
@@ -58,4 +64,17 @@ export async function getPublications(): Promise<Publication[]> {
     if (a.year !== b.year) return b.year - a.year;
     return a.title.localeCompare(b.title);
   });
+}
+
+export async function getPublicationBySlug(slug: string): Promise<Publication | null> {
+  const entries = await fs.readdir(PUBLICATIONS_DIR);
+  const mdxFiles = entries.filter((file) => file.endsWith(".mdx"));
+
+  for (const file of mdxFiles) {
+    const pub = await readPublicationFile(file);
+    if (pub.slug === slug) {
+      return pub;
+    }
+  }
+  return null;
 }

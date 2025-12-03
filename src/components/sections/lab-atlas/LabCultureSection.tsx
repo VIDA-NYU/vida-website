@@ -1,4 +1,5 @@
 import { SectionShell } from "@/components/layout/SectionShell";
+import Image from "next/image";
 
 const cultureBlocks = [
   {
@@ -8,6 +9,7 @@ const cultureBlocks = [
     icon: "📊",
     gradient: "from-sky-600/30 to-cyan-600/20",
     borderColor: "hover:border-sky-500/50",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
   },
   {
     title: "Urban Computing",
@@ -16,6 +18,7 @@ const cultureBlocks = [
     icon: "🏙️",
     gradient: "from-emerald-600/30 to-teal-600/20",
     borderColor: "hover:border-emerald-500/50",
+    image: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=600&q=80",
   },
   {
     title: "Reproducibility",
@@ -24,6 +27,7 @@ const cultureBlocks = [
     icon: "🔄",
     gradient: "from-amber-600/30 to-orange-600/20",
     borderColor: "hover:border-amber-500/50",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80",
   },
 ];
 
@@ -38,14 +42,21 @@ export function LabCultureSection() {
         {cultureBlocks.map((block) => (
           <article
             key={block.title}
-            className={`group flex flex-col justify-between rounded-2xl border border-zinc-800 bg-zinc-950/80 p-3 shadow-sm transition-all duration-300 ${block.borderColor} hover:shadow-lg`}
+            className={`group flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/80 shadow-sm transition-all duration-300 ${block.borderColor} hover:shadow-lg`}
           >
-            <div className={`relative flex h-28 items-center justify-center overflow-hidden rounded-xl border border-zinc-800 bg-gradient-to-br ${block.gradient} md:h-32`}>
-              <span className="text-4xl transition-transform duration-300 group-hover:scale-110">{block.icon}</span>
-              {/* Animated glow on hover */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative h-36 overflow-hidden md:h-40">
+              <Image
+                src={block.image}
+                alt={block.title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
+              <div className={`absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${block.gradient} text-xl shadow-lg backdrop-blur-sm`}>
+                {block.icon}
+              </div>
             </div>
-            <div className="mt-3 space-y-1">
+            <div className="p-4 space-y-1">
               <h2 className="text-sm font-semibold tracking-tight text-zinc-50">
                 {block.title}
               </h2>

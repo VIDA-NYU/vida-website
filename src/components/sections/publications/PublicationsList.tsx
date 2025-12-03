@@ -107,25 +107,25 @@ export function PublicationsList({ publications }: Props) {
 
   return (
     <SectionShell title="Publications" eyebrow="Research Output" theme="publications">
-      <p>
+      <p className="text-zinc-600 dark:text-zinc-400">
         Selected publications from the lab, organized by year. Use the search
         and filters to quickly find relevant work.
       </p>
 
-      {/* Search and filters - amber themed */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-amber-500/20 bg-gradient-to-r from-amber-950/30 via-zinc-950 to-zinc-950">
-        <div className="border-b border-amber-500/10 bg-amber-500/5 px-4 py-3">
+      {/* Search and filters */}
+      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 dark:border-purple-500/20 bg-white dark:bg-gradient-to-r dark:from-purple-950/30 dark:via-zinc-950 dark:to-zinc-950">
+        <div className="border-b border-zinc-200 dark:border-purple-500/10 bg-zinc-50 dark:bg-purple-500/5 px-4 py-3">
           <div className="flex items-center gap-2">
-            <svg className="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-purple-500 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search publications by title, author, venue, or tag..."
-              className="flex-1 bg-transparent text-sm text-zinc-50 placeholder:text-zinc-500 focus:outline-none"
+              className="flex-1 bg-transparent text-sm text-zinc-800 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none"
             />
-            <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] font-semibold text-amber-300">
+            <span className="rounded-full bg-purple-100 dark:bg-purple-500/20 px-2 py-0.5 text-[10px] font-semibold text-purple-700 dark:text-purple-300">
               {filteredCount} results
             </span>
           </div>
@@ -137,7 +137,7 @@ export function PublicationsList({ publications }: Props) {
             <select
               value={yearFilter}
               onChange={(e) => setYearFilter(e.target.value)}
-              className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-50 focus:border-amber-500 focus:outline-none"
+              className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-50 focus:border-purple-500 focus:outline-none"
             >
               <option value="all">All</option>
               {allYears.map((year) => (
@@ -151,7 +151,7 @@ export function PublicationsList({ publications }: Props) {
             <select
               value={kindFilter}
               onChange={(e) => setKindFilter(e.target.value)}
-              className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-50 focus:border-amber-500 focus:outline-none"
+              className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-50 focus:border-purple-500 focus:outline-none"
             >
               <option value="all">All</option>
               <option value="paper">Papers</option>
@@ -166,7 +166,7 @@ export function PublicationsList({ publications }: Props) {
             <select
               value={tagFilter}
               onChange={(e) => setTagFilter(e.target.value)}
-              className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-50 focus:border-amber-500 focus:outline-none"
+              className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-50 focus:border-purple-500 focus:outline-none"
             >
               <option value="all">All</option>
               {allTags.map((tag) => (
@@ -183,7 +183,7 @@ export function PublicationsList({ publications }: Props) {
                 setTagFilter("all");
                 setQuery("");
               }}
-              className="ml-auto text-[11px] font-medium text-amber-400 hover:text-amber-300"
+              className="ml-auto text-[11px] font-medium text-purple-600 dark:text-purple-400 hover:text-purple-500"
             >
               Clear filters
             </button>
@@ -196,27 +196,27 @@ export function PublicationsList({ publications }: Props) {
         {years.map((year) => (
           <section key={year} className="relative">
             {/* Year marker */}
-            <div className="sticky top-4 z-10 mb-4 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-lg font-bold text-white shadow-lg shadow-amber-500/25">
+            <div className="sticky top-16 z-10 mb-4 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-lg font-bold text-white shadow-lg shadow-purple-500/25">
                 {year.toString().slice(-2)}
               </div>
               <div>
-                <h2 className="text-lg font-bold text-zinc-50">{year}</h2>
+                <h2 className="text-lg font-bold text-zinc-800 dark:text-zinc-50">{year}</h2>
                 <p className="text-xs text-zinc-500">{groups[year].length} publications</p>
               </div>
             </div>
             
             {/* Publications list */}
-            <div className="ml-6 space-y-3 border-l-2 border-amber-500/20 pl-6">
+            <div className="ml-6 space-y-3 border-l-2 border-purple-200 dark:border-purple-500/20 pl-6">
               {groups[year].map((pub) => {
                 const theme = getPublicationTheme(pub.tags);
                 return (
                   <article
                     key={pub.slug}
-                    className="group relative rounded-xl border border-zinc-800 bg-zinc-950/80 p-4 transition-all duration-200 hover:border-amber-500/40 hover:bg-zinc-900/50"
+                    className="group relative rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/80 p-4 transition-all duration-200 hover:border-purple-300 dark:hover:border-purple-500/40 hover:shadow-md"
                   >
                     {/* Timeline dot */}
-                    <div className="absolute -left-[31px] top-5 h-3 w-3 rounded-full border-2 border-amber-500/50 bg-zinc-950" />
+                    <div className="absolute -left-[31px] top-5 h-3 w-3 rounded-full border-2 border-purple-300 dark:border-purple-500/50 bg-white dark:bg-zinc-950" />
                     
                     <div className="flex gap-4">
                       {/* Icon */}
@@ -225,16 +225,18 @@ export function PublicationsList({ publications }: Props) {
                       </div>
                       
                       <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold leading-snug text-zinc-50 group-hover:text-amber-200 transition-colors">
-                          {pub.title}
-                        </h3>
+                        <Link href={`/publications/${pub.slug}`} className="block">
+                          <h3 className="font-semibold leading-snug text-zinc-800 dark:text-zinc-50 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
+                            {pub.title}
+                          </h3>
+                        </Link>
                         {pub.authors.length > 0 && (
-                          <p className="mt-1 text-xs text-zinc-400">
+                          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                             {pub.authors.join(", ")}
                           </p>
                         )}
                         {pub.venue && (
-                          <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-amber-400/80">
+                          <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-purple-600 dark:text-purple-400/80">
                             <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                             </svg>
@@ -246,24 +248,20 @@ export function PublicationsList({ publications }: Props) {
                           {pub.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-400"
+                              className="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-600 dark:text-zinc-400"
                             >
                               {tag}
                             </span>
                           ))}
-                          {pub.externalUrl && (
-                            <Link
-                              href={pub.externalUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-auto inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold text-zinc-950 transition-all hover:bg-amber-400"
-                            >
-                              Read paper
-                              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                              </svg>
-                            </Link>
-                          )}
+                          <Link
+                            href={`/publications/${pub.slug}`}
+                            className="ml-auto inline-flex items-center gap-1 rounded-full bg-purple-500 px-3 py-1 text-[11px] font-semibold text-white transition-all hover:bg-purple-400"
+                          >
+                            View details
+                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -276,7 +274,7 @@ export function PublicationsList({ publications }: Props) {
       </div>
       
       {filtered.length === 0 && (
-        <div className="mt-8 rounded-2xl border border-dashed border-zinc-700 p-12 text-center">
+        <div className="mt-8 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center">
           <p className="text-zinc-500">No publications found matching your criteria.</p>
         </div>
       )}

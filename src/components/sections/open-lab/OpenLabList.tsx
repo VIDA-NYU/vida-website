@@ -2,8 +2,9 @@
 
 import { SectionShell } from "@/components/layout/SectionShell";
 import type { OpenLabResource, OpenLabKind } from "@/lib/open-lab";
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type Props = {
   resources: OpenLabResource[];
@@ -32,34 +33,73 @@ const KIND_CONFIG: Record<OpenLabKind, { label: string; icon: string; color: str
 
 function ResourceCard({ item }: { item: OpenLabResource }) {
   const config = KIND_CONFIG[item.kind];
+  const [isHovering, setIsHovering] = useState(false);
   
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/80 transition-all duration-300 hover:border-cyan-500/40 hover:shadow-lg hover:shadow-cyan-900/20">
-      {/* Gradient accent */}
-      <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${config.bgGradient}`} />
-      
-      <div className="p-4">
-        <div className="flex items-start gap-3">
-          <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${config.color} text-lg`}>
+    <article 
+      className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white/80 dark:border-zinc-800 dark:bg-zinc-950/80 transition-all duration-300 hover:border-purple-500/40 hover:shadow-lg hover:shadow-purple-500/10 dark:hover:shadow-purple-900/20"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* Image/Video with hover effect */}
+      {(item.image || item.video) && (
+        <div className="relative h-36 overflow-hidden">
+          {/* Show video on hover if available */}
+          {item.video && isHovering ? (
+            <iframe
+              src={`${item.video}?autoplay=1&mute=1&controls=0&loop=1`}
+              title={item.title}
+              className="absolute inset-0 h-full w-full"
+              allow="autoplay; encrypted-media"
+            />
+          ) : item.image ? (
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          ) : null}
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent dark:from-zinc-950 dark:via-zinc-950/50 pointer-events-none" />
+          <div className={`absolute bottom-2 left-2 flex h-8 w-8 items-center justify-center rounded-lg border ${config.color} text-sm backdrop-blur-sm`}>
             {config.icon}
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="text-sm font-semibold tracking-tight text-zinc-50 group-hover:text-cyan-300 transition-colors">
-                {item.title}
-              </h3>
-              <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${config.color}`}>
-                {config.label}
-              </span>
+          <span className={`absolute top-2 right-2 rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider backdrop-blur-sm ${config.color}`}>
+            {config.label}
+          </span>
+          {item.video && !isHovering && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-full bg-black/50 p-3 backdrop-blur-sm">
+                <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
             </div>
-            <p className="mt-0.5 text-[11px] text-zinc-500">
-              {item.area ?? "Cross-cutting"}
-            </p>
-          </div>
+          )}
         </div>
+      )}
+      
+      <div className="p-4">
+        {!item.image && (
+          <div className="mb-3 flex items-center justify-between">
+            <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${config.color} text-lg`}>
+              {config.icon}
+            </div>
+            <span className={`rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${config.color}`}>
+              {config.label}
+            </span>
+          </div>
+        )}
+        
+        <h3 className="text-sm font-semibold tracking-tight text-zinc-800 dark:text-zinc-50 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
+          {item.title}
+        </h3>
+        <p className="mt-0.5 text-[11px] text-zinc-500">
+          {item.area ?? "Cross-cutting"}
+        </p>
         
         {item.summary && (
-          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-zinc-400">
+          <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
             {item.summary}
           </p>
         )}
@@ -69,7 +109,7 @@ function ResourceCard({ item }: { item: OpenLabResource }) {
             {item.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className="rounded bg-zinc-800/80 px-1.5 py-0.5 text-[10px] text-zinc-400"
+                className="rounded bg-zinc-100 dark:bg-zinc-800/80 px-1.5 py-0.5 text-[10px] text-zinc-600 dark:text-zinc-400"
               >
                 {tag}
               </span>
@@ -80,7 +120,7 @@ function ResourceCard({ item }: { item: OpenLabResource }) {
               href={item.link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600 px-3 py-1 text-[11px] font-semibold text-white shadow-lg shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40"
+              className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 px-3 py-1 text-[11px] font-semibold text-white shadow-lg shadow-purple-500/25 transition-all hover:shadow-purple-500/40"
             >
               <span>Open</span>
               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
