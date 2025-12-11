@@ -43,7 +43,7 @@ export function LogList({ entries }: Props) {
                   />
                 </div>
               ) : (
-                <div className={`flex h-20 w-28 shrink-0 items-center justify-center rounded-xl ${config.bgColor} border border-zinc-700/50`}>
+                <div className={`flex h-20 w-28 shrink-0 items-center justify-center rounded-xl ${config.bgColor} border border-zinc-200 dark:border-zinc-700/50`}>
                   <div className="text-center">
                     <span className="text-2xl">{config.icon}</span>
                     <p className={`mt-1 text-[9px] font-semibold uppercase tracking-wider ${config.color}`}>

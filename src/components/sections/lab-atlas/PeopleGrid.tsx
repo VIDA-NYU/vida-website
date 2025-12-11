@@ -122,19 +122,19 @@ export function PeopleGrid({ people }: Props) {
                   {group.slice(0, 7).map((person, index) => (
                     <div
                       key={person.slug}
-                      className="h-8 w-8 overflow-hidden rounded-full border-2 border-zinc-900 bg-zinc-900"
+                      className="h-8 w-8 overflow-hidden rounded-full border-2 border-white dark:border-zinc-900 bg-zinc-100 dark:bg-zinc-900"
                       style={{ zIndex: group.length - index }}
                     >
                       <PersonAvatar person={person} size="sm" />
                     </div>
                   ))}
                   {group.length > 7 && (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-zinc-700 bg-zinc-900 text-[10px] text-zinc-300">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 text-[10px] text-zinc-600 dark:text-zinc-300">
                       +{group.length - 7}
                     </div>
                   )}
                 </div>
-                <span className="rounded-full bg-sky-500/10 px-2 py-0.5 text-[10px] font-medium text-sky-200">
+                <span className="rounded-full bg-purple-100 dark:bg-sky-500/10 px-2 py-0.5 text-[10px] font-medium text-purple-700 dark:text-sky-200">
                   {group.length} members
                 </span>
               </div>
@@ -156,10 +156,10 @@ export function PeopleGrid({ people }: Props) {
                 {group.map((person) => (
                   <article
                     key={person.slug}
-                    className="group flex flex-col rounded-2xl border border-zinc-800 bg-zinc-950/80 p-4 text-sm shadow-sm transition-all duration-200 hover:border-violet-500/40 hover:shadow-lg hover:shadow-violet-900/10"
+                    className="group flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/80 p-4 text-sm shadow-sm transition-all duration-200 hover:border-purple-300 dark:hover:border-violet-500/40 hover:shadow-lg hover:shadow-purple-100 dark:hover:shadow-violet-900/10"
                   >
                     <header className="flex items-start gap-3">
-                      <div className="mt-0.5 h-10 w-10 overflow-hidden rounded-full bg-zinc-900">
+                      <div className="mt-0.5 h-10 w-10 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
                         {hideAvatar ? (
                           <div className={`flex h-full w-full items-center justify-center text-xs font-semibold text-white bg-gradient-to-br ${getAvatarColor(person.name)}`}>
                             {getInitials(person.name)}
@@ -168,10 +168,10 @@ export function PeopleGrid({ people }: Props) {
                           <PersonAvatar person={person} size="md" />
                         )}
                       </div>
-                      <h3 className="text-sm font-semibold tracking-tight text-zinc-50">
+                      <h3 className="text-sm font-semibold tracking-tight text-zinc-800 dark:text-zinc-50">
                         {person.name}
                         {person.position ? (
-                          <span className="block text-xs font-normal text-zinc-300">
+                          <span className="block text-xs font-normal text-zinc-600 dark:text-zinc-300">
                             {person.position}
                           </span>
                         ) : null}
@@ -181,14 +181,14 @@ export function PeopleGrid({ people }: Props) {
                           </span>
                         ) : null}
                         {person.lab ? (
-                          <span className="mt-0.5 inline-block rounded-full bg-zinc-900 px-2 py-0.5 text-[10px] font-normal text-zinc-300">
+                          <span className="mt-0.5 inline-block rounded-full bg-zinc-100 dark:bg-zinc-900 px-2 py-0.5 text-[10px] font-normal text-zinc-600 dark:text-zinc-300">
                             {person.lab}
                           </span>
                         ) : null}
                       </h3>
                     </header>
                     {person.bio ? (
-                      <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-zinc-300">
+                      <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
                         {person.bio}
                       </p>
                     ) : null}
@@ -196,7 +196,7 @@ export function PeopleGrid({ people }: Props) {
                       {person.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full bg-zinc-900 px-2 py-0.5 text-zinc-300"
+                          className="rounded-full bg-zinc-100 dark:bg-zinc-900 px-2 py-0.5 text-zinc-600 dark:text-zinc-300"
                         >
                           {tag}
                         </span>
@@ -206,7 +206,7 @@ export function PeopleGrid({ people }: Props) {
                           href={person.website}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-auto inline-flex items-center rounded-full bg-sky-500 px-2.5 py-0.5 font-medium text-zinc-950 transition-colors hover:bg-sky-400"
+                          className="ml-auto inline-flex items-center rounded-full bg-purple-500 px-2.5 py-0.5 font-medium text-white transition-colors hover:bg-purple-400"
                         >
                           Profile
                         </Link>

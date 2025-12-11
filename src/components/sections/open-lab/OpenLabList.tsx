@@ -82,7 +82,7 @@ function ResourceCard({ item }: { item: OpenLabResource }) {
       <div className="p-4">
         {!item.image && (
           <div className="mb-3 flex items-center justify-between">
-            <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${config.color} text-lg`}>
+            <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${config.color}`}>
               {config.icon}
             </div>
             <span className={`rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${config.color}`}>
@@ -167,14 +167,14 @@ export function OpenLabList({ resources }: Props) {
               onClick={() => setActiveFilter(filter)}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                 isActive
-                  ? "border-cyan-500/50 bg-cyan-500/20 text-cyan-300"
-                  : "border-zinc-700 bg-zinc-900/50 text-zinc-400 hover:border-zinc-600 hover:text-zinc-300"
+                  ? "border-purple-400 dark:border-cyan-500/50 bg-purple-100 dark:bg-cyan-500/20 text-purple-700 dark:text-cyan-300"
+                  : "border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-800 dark:hover:text-zinc-300"
               }`}
             >
               {config && <span>{config.icon}</span>}
               <span>{filter === "all" ? "All" : config?.label}</span>
               <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${
-                isActive ? "bg-cyan-500/30" : "bg-zinc-800"
+                isActive ? "bg-purple-200 dark:bg-cyan-500/30" : "bg-zinc-200 dark:bg-zinc-800"
               }`}>
                 {counts[filter]}
               </span>
@@ -191,7 +191,7 @@ export function OpenLabList({ resources }: Props) {
       </div>
       
       {filtered.length === 0 && (
-        <div className="mt-8 rounded-2xl border border-dashed border-zinc-700 p-8 text-center">
+        <div className="mt-8 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 p-8 text-center">
           <p className="text-sm text-zinc-500">No resources found for this category.</p>
         </div>
       )}

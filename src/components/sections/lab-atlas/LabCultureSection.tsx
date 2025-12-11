@@ -42,7 +42,7 @@ export function LabCultureSection() {
         {cultureBlocks.map((block) => (
           <article
             key={block.title}
-            className={`group flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/80 shadow-sm transition-all duration-300 ${block.borderColor} hover:shadow-lg`}
+            className={`group flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/80 shadow-sm transition-all duration-300 ${block.borderColor} hover:shadow-lg`}
           >
             <div className="relative h-36 overflow-hidden md:h-40">
               <Image
@@ -51,16 +51,16 @@ export function LabCultureSection() {
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-950 via-white/50 dark:via-zinc-950/50 to-transparent" />
               <div className={`absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${block.gradient} text-xl shadow-lg backdrop-blur-sm`}>
                 {block.icon}
               </div>
             </div>
             <div className="p-4 space-y-1">
-              <h2 className="text-sm font-semibold tracking-tight text-zinc-50">
+              <h2 className="text-sm font-semibold tracking-tight text-zinc-800 dark:text-zinc-50">
                 {block.title}
               </h2>
-              <p className="text-xs leading-relaxed text-zinc-300">
+              <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
                 {block.description}
               </p>
             </div>

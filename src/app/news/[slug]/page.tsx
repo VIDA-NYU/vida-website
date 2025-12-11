@@ -9,11 +9,11 @@ type Params = Promise<{
 }>;
 
 const KIND_LABELS: Record<string, { label: string; color: string }> = {
-  event: { label: "Event", color: "bg-violet-500/20 text-violet-300" },
-  news: { label: "News", color: "bg-sky-500/20 text-sky-300" },
-  release: { label: "Release", color: "bg-emerald-500/20 text-emerald-300" },
-  talk: { label: "Talk", color: "bg-amber-500/20 text-amber-300" },
-  visit: { label: "Visit", color: "bg-rose-500/20 text-rose-300" },
+  event: { label: "Event", color: "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" },
+  news: { label: "News", color: "bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300" },
+  release: { label: "Release", color: "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" },
+  talk: { label: "Talk", color: "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300" },
+  visit: { label: "Visit", color: "bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300" },
 };
 
 export default async function NewsDetailPage({ params }: { params: Params }) {
@@ -38,7 +38,7 @@ export default async function NewsDetailPage({ params }: { params: Params }) {
       <div className="space-y-8">
         {/* Hero image */}
         {entry.image && (
-          <div className="overflow-hidden rounded-2xl border border-zinc-800">
+          <div className="overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <Image
               src={entry.image}
               alt={entry.title}
@@ -54,23 +54,23 @@ export default async function NewsDetailPage({ params }: { params: Params }) {
           <span className={`rounded-full px-3 py-1 text-sm font-semibold ${kindConfig.color}`}>
             {kindConfig.label}
           </span>
-          <span className="text-sm text-zinc-400">
+          <span className="text-sm text-zinc-500 dark:text-zinc-400">
             {entry.date}
           </span>
         </div>
 
         {/* Summary */}
-        <p className="text-lg leading-relaxed text-zinc-300">
+        <p className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
           {entry.summary}
         </p>
 
         {/* Video */}
         {entry.video && (
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
               Video
             </h3>
-            <div className="aspect-video overflow-hidden rounded-2xl border border-zinc-800 bg-black">
+            <div className="aspect-video overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-black">
               <iframe
                 src={entry.video}
                 title={entry.title}
@@ -84,13 +84,13 @@ export default async function NewsDetailPage({ params }: { params: Params }) {
 
         {/* Body content */}
         {entry.body && (
-          <div className="prose prose-invert max-w-none prose-headings:text-zinc-50 prose-p:text-zinc-300 prose-a:text-sky-400">
+          <div className="prose dark:prose-invert max-w-none prose-headings:text-zinc-800 dark:prose-headings:text-zinc-50 prose-p:text-zinc-600 dark:prose-p:text-zinc-300 prose-a:text-purple-600 dark:prose-a:text-sky-400">
             <div dangerouslySetInnerHTML={{ __html: entry.body.replace(/\n/g, '<br/>') }} />
           </div>
         )}
 
         {/* External link */}
-        <div className="flex flex-wrap gap-3 border-t border-zinc-800 pt-6">
+        <div className="flex flex-wrap gap-3 border-t border-zinc-200 dark:border-zinc-800 pt-6">
           {entry.link && (
             <Link
               href={entry.link}
@@ -106,7 +106,7 @@ export default async function NewsDetailPage({ params }: { params: Params }) {
           )}
           <Link
             href="/log"
-            className="ml-auto inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-300"
+            className="ml-auto inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300"
           >
             ← Back to logs
           </Link>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { DynamicBackground } from "@/components/layout/DynamicBackground";
+import { FloatingNav } from "@/components/layout/FloatingNav";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const geistSans = Geist({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="relative flex min-h-screen flex-col overflow-hidden bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 transition-colors duration-300">
             <DynamicBackground />
+            <FloatingNav />
             <div className="relative z-10 flex flex-1 flex-col">
               <SiteHeader />
               <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-12 pt-4 md:px-6 md:pb-16 md:pt-8">

@@ -62,7 +62,7 @@ export function ResearchAreaCard({ area }: Props) {
 
   return (
     <article
-      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950 transition-all duration-300 ${theme.borderHover} hover:shadow-2xl hover:shadow-zinc-900/50`}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 transition-all duration-300 ${theme.borderHover} hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -75,7 +75,7 @@ export function ResearchAreaCard({ area }: Props) {
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-950 via-white/50 dark:via-zinc-950/50 to-transparent" />
           
           {/* Floating icon */}
           <div className={`absolute bottom-4 left-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient.replace('/20', '/80').replace('/10', '/60')} text-2xl shadow-lg backdrop-blur-sm`}>
@@ -94,20 +94,20 @@ export function ResearchAreaCard({ area }: Props) {
             {!hasImage && (
               <span className="text-3xl">{theme.icon}</span>
             )}
-            <h2 className="text-xl font-bold tracking-tight text-zinc-50 group-hover:text-emerald-300 transition-colors">
+            <h2 className="text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50 group-hover:text-green-600 dark:group-hover:text-emerald-300 transition-colors">
               {area.title}
             </h2>
             {area.tags.length ? (
               <div className="flex flex-wrap gap-2">
                 {area.tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+                  <span key={tag} className="rounded-full bg-green-100 dark:bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-green-700 dark:text-emerald-400">
                     {tag}
                   </span>
                 ))}
               </div>
             ) : null}
           </header>
-          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-zinc-400">
+          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             {area.body}
           </p>
         </button>
@@ -115,7 +115,7 @@ export function ResearchAreaCard({ area }: Props) {
         {/* Video section */}
         {hasVideo && (
           <div className="mt-4">
-            <div className="relative aspect-video overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+            <div className="relative aspect-video overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
               {/* YouTube embed */}
               {area.video?.includes('youtube') ? (
                 <iframe

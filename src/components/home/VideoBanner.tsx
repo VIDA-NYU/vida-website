@@ -93,7 +93,7 @@ export function VideoBanner() {
   const currentVideo = VIDEOS[currentIndex];
 
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-800 bg-black">
+    <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-black">
       {/* Video Player */}
       <div className="relative aspect-[21/9] w-full">
         <iframe
@@ -139,14 +139,14 @@ export function VideoBanner() {
       </div>
       
       {/* Video selector thumbnails */}
-      <div className="flex gap-2 overflow-x-auto p-3 bg-zinc-950">
+      <div className="flex gap-2 overflow-x-auto p-3 bg-zinc-100 dark:bg-zinc-950">
         {VIDEOS.map((video, index) => (
           <button
             key={video.id}
             onClick={() => handleVideoSelect(index)}
             className={`relative shrink-0 overflow-hidden rounded-lg transition-all ${
               index === currentIndex
-                ? "ring-2 ring-sky-500 ring-offset-2 ring-offset-zinc-950"
+                ? "ring-2 ring-purple-500 ring-offset-2 ring-offset-white dark:ring-offset-zinc-950"
                 : "opacity-60 hover:opacity-100"
             }`}
           >
