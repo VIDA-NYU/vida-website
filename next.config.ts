@@ -6,9 +6,11 @@ const withMDX = createMDX({
 });
 
 const nextConfig: NextConfig = {
+  output: "export", // tells Next to generate a static export
   reactCompiler: true,
   pageExtensions: ["ts", "tsx", "mdx"],
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

@@ -12,14 +12,14 @@ type ThemeContextType = {
 };
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
   setTheme: () => {},
   mounted: false,
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -27,9 +27,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const stored = localStorage.getItem("vida-theme") as Theme | null;
     if (stored) {
       setThemeState(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setThemeState("light");
+      return;
     }
+
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setThemeState(prefersDark ? "dark" : "light");
   }, []);
 
   useEffect(() => {

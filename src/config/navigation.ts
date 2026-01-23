@@ -7,7 +7,7 @@ export const primaryNav: NavItem[] = [
   { label: "Mission", href: "/" },
   { label: "Research", href: "/research" },
   { label: "Projects", href: "/projects" },
-  { label: "Playground", href: "/playground" },
+  // { label: "Playground", href: "/playground" }, // temporarily hidden
   { label: "Publications", href: "/publications" },
   { label: "Lab Atlas", href: "/lab-atlas" },
 ];
