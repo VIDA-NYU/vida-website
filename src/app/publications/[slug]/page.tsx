@@ -1,4 +1,5 @@
 import { SectionShell } from "@/components/layout/SectionShell";
+import { PublicationCiteActions } from "@/components/publications/PublicationCiteActions";
 import { getPublicationBySlug, getPublications } from "@/lib/publications";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +36,13 @@ export default async function PublicationDetailPage({ params }: { params: Params
             />
           </div>
         )}
+
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-950/40 p-6">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Cite this work
+          </h3>
+          <PublicationCiteActions cite={publication.cite} bibtex={publication.bibtex} />
+        </div>
 
         {/* Video - show prominently if available */}
         {publication.video && (

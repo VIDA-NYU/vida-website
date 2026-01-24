@@ -1,6 +1,7 @@
 "use client";
 
 import { SectionShell } from "@/components/layout/SectionShell";
+import { PublicationCiteActions } from "@/components/publications/PublicationCiteActions";
 import type { Publication } from "@/lib/publications";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -262,6 +263,10 @@ export function PublicationsList({ publications }: Props) {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                           </Link>
+                        </div>
+
+                        <div className="mt-3">
+                          <PublicationCiteActions cite={pub.cite} bibtex={pub.bibtex} />
                         </div>
                       </div>
                     </div>

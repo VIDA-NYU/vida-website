@@ -24,6 +24,8 @@ const SCHEMAS = [
       title: "string",
       authors: "stringArray",
       year: "number",
+      cite: "citeEntries",
+      bibtex: "string",
     },
   },
   {
@@ -97,6 +99,20 @@ function isStringArray(value) {
   return Array.isArray(value) && value.every((item) => typeof item === "string" && item.trim() !== "");
 }
 
+function isCitationArray(value) {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every(
+      (entry) =>
+        entry &&
+        typeof entry === "object" &&
+        isNonEmptyString(entry.style) &&
+        isNonEmptyString(entry.text),
+    )
+  );
+}
+
 function validateField(type, value) {
   switch (type) {
     case "string":
@@ -105,6 +121,8 @@ function validateField(type, value) {
       return isNumberLike(value);
     case "stringArray":
       return isStringArray(value);
+    case "citeEntries":
+      return isCitationArray(value);
     default:
       return false;
   }

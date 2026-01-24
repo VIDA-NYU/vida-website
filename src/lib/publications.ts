@@ -20,6 +20,8 @@ export type Publication = {
   image?: string;
   video?: string;
   abstract?: string;
+  cite: { style: string; text: string }[];
+  bibtex: string;
   body: string;
 };
 
@@ -50,6 +52,8 @@ async function readPublicationFile(fileName: string): Promise<Publication> {
     image: data.image as string | undefined,
     video: data.video as string | undefined,
     abstract: data.abstract as string | undefined,
+    cite: (data.cite as { style: string; text: string }[]) ?? [],
+    bibtex: (data.bibtex as string) ?? "",
     body: content.trim(),
   };
 }

@@ -96,6 +96,18 @@ year: 2024
 venue: "Conference or Journal Name"
 kind: "paper"
 externalUrl: "https://doi.org/..."
+cite:
+  - style: "MLA"
+    text: "Author One, Author Two. \"Full Paper Title.\" Conference or Journal Name, 2024."
+  - style: "APA"
+    text: "Author One, A., & Author Two, B. (2024). Full Paper Title. Conference or Journal Name."
+bibtex: |
+  @article{2024-paper-title,
+    title={Full Paper Title},
+    author={Author One and Author Two},
+    journal={Conference or Journal Name},
+    year={2024}
+  }
 tags:
   - "visualization"
   - "machine-learning"
