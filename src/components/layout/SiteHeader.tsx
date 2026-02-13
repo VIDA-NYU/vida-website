@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { DesktopNav } from "@/components/layout/DesktopNav";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { VidaLogo } from "@/components/brand/VidaLogo";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export function SiteHeader() {
@@ -13,11 +13,15 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-black/70 transition-colors">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <VidaLogo size="sm" animate={false} />
-          <span className="text-[9px] font-medium uppercase tracking-[0.12em] text-zinc-500 dark:text-zinc-400">
-            Visualization Imaging<br />& Data Analysis
-          </span>
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/assets/VIDA-logo-long.png"
+            alt="VIDA - Visualization Imaging and Data Analysis Center"
+            width={200}
+            height={40}
+            className="h-8 w-auto"
+            priority
+          />
         </Link>
         <DesktopNav />
         <div className="flex items-center gap-2">

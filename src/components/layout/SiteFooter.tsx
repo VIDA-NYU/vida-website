@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function SiteFooter() {
   return (
@@ -8,7 +9,14 @@ export function SiteFooter() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-purple-600 dark:text-purple-400">
             VIDA - Visualization Imaging & Data Analysis
           </p>
-          <p className="mt-1 text-xs md:text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 flex items-center gap-2 text-xs md:text-sm text-zinc-600 dark:text-zinc-400">
+            <Image
+              src="/assets/NYUTandon_ShortLogo_White.png"
+              alt="NYU Tandon"
+              width={80}
+              height={24}
+              className="h-5 w-auto dark:brightness-100 brightness-0"
+            />
             NYU Tandon School of Engineering
           </p>
         </div>

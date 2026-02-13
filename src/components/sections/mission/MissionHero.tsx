@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { VidaLogoBanner } from "@/components/brand/VidaLogo";
+import Image from "next/image";
 
 type MissionHeroProps = {
   peopleCount?: number;
@@ -68,7 +68,14 @@ export function MissionHero({ peopleCount, publicationsCount }: MissionHeroProps
           <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-tr from-purple-500/10 via-green-400/10 to-purple-400/5" />
           <div className="relative flex flex-col gap-4 rounded-3xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-950/80 p-4 shadow-2xl">
             <div className="flex h-40 items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-gradient-to-br from-purple-50 dark:from-purple-950/50 via-zinc-50 dark:via-zinc-900 to-white dark:to-zinc-950 sm:h-52">
-              <VidaLogoBanner animate={true} />
+              <Image
+                src="/assets/VIDA Logo.png"
+                alt="VIDA - Visualization Imaging and Data Analysis Center"
+                width={400}
+                height={200}
+                className="h-auto w-full max-w-[280px] sm:max-w-[340px]"
+                priority
+              />
             </div>
             <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-zinc-500 dark:text-zinc-400">
               NYU Tandon School of Engineering
