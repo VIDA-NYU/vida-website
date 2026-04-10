@@ -10,9 +10,10 @@ export type Person = {
   role: string;
   position?: string;
   affiliation?: string;
-  status: "current" | "alumni";
+  status: "current" | "active" | "alumni";
   order: number;
   website?: string;
+  email?: string;
   image?: string;
   lab?: string;
   researchAreas: string[];
@@ -28,6 +29,8 @@ export function normalizeRole(role: string): string {
     "faculty": "Faculty",
     "research-associate": "Research Associate",
     "student": "Student",
+    "phd": "PhD Student",
+    "masters": "Masters Student",
     "alumni": "Alumni",
     "staff": "Staff",
     "collaborator": "Collaborators and Associated Faculty",
@@ -44,14 +47,18 @@ function roleWeight(role: string): number {
       return 1;
     case "collaborator":
       return 2;
-    case "student":
+    case "phd":
       return 3;
-    case "alumni":
+    case "masters":
       return 4;
-    case "staff":
+    case "student":
       return 5;
-    default:
+    case "alumni":
       return 6;
+    case "staff":
+      return 7;
+    default:
+      return 8;
   }
 }
 
@@ -79,6 +86,14 @@ async function readPersonFile(fileName: string): Promise<Person> {
     tags: (data.tags as string[]) ?? [],
     bio: content.trim(),
   };
+}
+
+export async function getPersonBySlug(slug: string): Promise<Person | null> {
+  try {
+    return await readPersonFile(`${slug}.mdx`);
+  } catch (error) {
+    return null;
+  }
 }
 
 export async function getPeople(): Promise<Person[]> {

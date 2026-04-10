@@ -66,20 +66,29 @@ Create a new file in `content/people/`:
 slug: "firstname-lastname"
 name: "First Last"
 role: "faculty"
-title: "Professor"
+position: "Professor"
 affiliation: "NYU Tandon School of Engineering"
-email: "email@nyu.edu"
+status: "current"
+order: 1
 website: "https://example.com"
+email: "email@example.com"
 image: "https://example.com/photo.jpg"
+lab: "VIDA"
 researchAreas:
   - "visualization"
   - "data-analysis"
+tags:
+  - "visualization"
 ---
 
 Brief biography goes here. This text appears on the person's profile page.
 ```
 
-Role options: `faculty`, `researcher`, `phd`, `masters`, `undergrad`, `alumni`, `collaborator`
+**Required fields:** `slug`, `name`, `role`, `status`, `order`, `researchAreas`, `tags`, `bio` (content after frontmatter)
+**Optional fields:** `position`, `affiliation`, `website`, `email`, `image`, `lab`
+
+Role options: `faculty`, `research-associate`, `phd`, `masters`, `alumni`, `staff`, `collaborator`
+Status options: `current`, `active`, `alumni`
 
 ### Adding a New Publication
 
@@ -96,6 +105,8 @@ year: 2024
 venue: "Conference or Journal Name"
 kind: "paper"
 externalUrl: "https://doi.org/..."
+doi: "https://doi.org/..."
+githubUrl: "https://github.com/VIDA-NYU/repo"
 cite:
   - style: "MLA"
     text: "Author One, Author Two. \"Full Paper Title.\" Conference or Journal Name, 2024."
@@ -112,6 +123,7 @@ tags:
   - "visualization"
   - "machine-learning"
 featured: true
+thumbnail: "https://example.com/paper-thumbnail.jpg"
 image: "https://example.com/paper-figure.jpg"
 video: "https://www.youtube.com/embed/VIDEO_ID"
 abstract: "Paper abstract text..."
@@ -119,6 +131,9 @@ abstract: "Paper abstract text..."
 
 Additional content or notes about the publication.
 ```
+
+**Required fields:** `slug`, `title`, `authors`, `year`, `kind`, `tags`, `cite`, `bibtex`, `body` (content after frontmatter)
+**Optional fields:** `venue`, `externalUrl`, `doi`, `githubUrl`, `featured`, `thumbnail`, `image`, `video`, `abstract`
 
 Kind options: `paper`, `preprint`, `talk`, `thesis`
 
@@ -155,6 +170,9 @@ Detailed project description in markdown format.
 List related papers here.
 ```
 
+**Required fields:** `slug`, `title`, `kind`, `summary`, `status`, `relatedAreas`, `tags`, `body` (content after frontmatter)
+**Optional fields:** `externalUrl`, `image`, `video`
+
 Kind options: `program`, `project`, `tool`
 Status options: `active`, `archived`, `legacy`
 
@@ -177,7 +195,10 @@ video: "https://www.youtube.com/embed/VIDEO_ID"
 Full content of the news item goes here.
 ```
 
-Kind options: `news`, `event`, `release`, `talk`, `visit`, `award`
+**Required fields:** `slug`, `title`, `date`, `kind`, `summary`, `body` (content after frontmatter)
+**Optional fields:** `link`, `image`, `video`
+
+Kind options: `event`, `news`, `release`, `talk`, `visit`
 
 ### Adding an Open Lab Resource
 
@@ -201,7 +222,10 @@ video: "https://www.youtube.com/embed/VIDEO_ID"
 Detailed description of the tool and its capabilities.
 ```
 
-Kind options: `software`, `dataset`, `repository`
+**Required fields:** `slug`, `title`, `kind`, `summary`, `tags`, `updated`, `body` (content after frontmatter)
+**Optional fields:** `area`, `link`, `image`, `video`
+
+Kind options: `dataset`, `repository`, `software`
 
 ### Adding a Playground Demo
 
@@ -224,6 +248,9 @@ tags:
 Description of what the demo showcases.
 ```
 
+**Required fields:** `slug`, `title`, `kind`, `summary`, `order`, `featured`, `tags`, `body` (content after frontmatter)
+**Optional fields:** `model`, `video`, `audio`, `image`, `instructions`, `relatedProject`
+
 Kind options: `3d`, `video`, `audio`, `image`, `interactive`
 
 For audio demos, use this format:
@@ -240,8 +267,32 @@ audio:
     src: "https://example.com/audio1.mp3"
   - label: "Sample 2"
     src: "https://example.com/audio2.mp3"
+tags:
+  - "audio"
 ---
 ```
+
+### Adding a Research Area
+
+Create a new file in `content/research-areas/`:
+
+```mdx
+---
+slug: "visualization"
+title: "Visualization"
+shortTitle: "Viz"
+order: 1
+tags:
+  - "visualization"
+image: "https://example.com/area-image.jpg"
+video: "https://www.youtube.com/embed/VIDEO_ID"
+---
+
+Detailed description of the research area.
+```
+
+**Required fields:** `slug`, `title`, `order`, `tags`, `body` (content after frontmatter)
+**Optional fields:** `shortTitle`, `image`, `video`
 
 ## Images and Media
 
