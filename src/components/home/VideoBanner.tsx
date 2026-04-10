@@ -8,56 +8,20 @@ type Video = {
   description: string;
 };
 
-const VIDEOS: Video[] = [
-  {
-    id: "5Zg-C8AAIGg",
-    title: "The Beauty of Data Visualization",
-    description: "David McCandless on turning data into art",
-  },
-  {
-    id: "jbkSRLYSojo",
-    title: "200 Countries, 200 Years",
-    description: "Hans Rosling's legendary data storytelling",
-  },
-  {
-    id: "hVimVzgtD6w",
-    title: "The Best Stats You've Ever Seen",
-    description: "Hans Rosling challenges preconceptions with data",
-  },
-  {
-    id: "aircAruvnKk",
-    title: "What is a Neural Network?",
-    description: "3Blue1Brown explains deep learning visually",
-  },
-  {
-    id: "N00g9Q9stBo",
-    title: "A Brief History of Data Visualization",
-    description: "How we learned to see data",
-  },
-  {
-    id: "fSgEeI2Xpdc",
-    title: "How Humans See Data",
-    description: "John Rauser on perception and visualization",
-  },
-  {
-    id: "ll5LY7wI_Xc",
-    title: "Can AI Catch What Doctors Miss?",
-    description: "Eric Topol on AI in healthcare",
-  },
-];
-
-export function VideoBanner() {
+export function VideoBanner({ videos }: { videos: Video[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const VIDEO_DURATION = 12000; // 12 seconds per video
 
   useEffect(() => {
+    if (!videos || videos.length === 0) return;
+
     const startTime = Date.now();
     intervalRef.current = setInterval(() => {
       const elapsed = Date.now() - startTime;
       
       if (elapsed >= VIDEO_DURATION) {
-        setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
+        setCurrentIndex((prev) => (prev + 1) % videos.length);
       }
     }, 50);
 
@@ -66,17 +30,21 @@ export function VideoBanner() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [currentIndex]);
+  }, [currentIndex, videos]);
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + VIDEOS.length) % VIDEOS.length);
+    if (!videos || videos.length === 0) return;
+    setCurrentIndex((prev) => (prev - 1 + videos.length) % videos.length);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % VIDEOS.length);
+    if (!videos || videos.length === 0) return;
+    setCurrentIndex((prev) => (prev + 1) % videos.length);
   };
 
-  const currentVideo = VIDEOS[currentIndex];
+  if (!videos || videos.length === 0) return null;
+
+  const currentVideo = videos[currentIndex];
 
   return (
     <div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-black">

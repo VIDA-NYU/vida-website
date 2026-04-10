@@ -294,6 +294,61 @@ Detailed description of the research area.
 **Required fields:** `slug`, `title`, `order`, `tags`, `body` (content after frontmatter)
 **Optional fields:** `shortTitle`, `image`, `video`
 
+### Homepage Content Management
+
+The homepage content is controlled by a single MDX configuration file at `content/home/index.mdx`. This file allows you to manage:
+
+- **Banner videos**: YouTube videos displayed in the hero carousel
+- **Featured content**: Highlighted publications, news items, or projects
+- **Awards & honors**: Award-winning publications or projects
+- **Active projects**: Currently active research projects to showcase
+
+#### Example Configuration
+
+```mdx
+---
+title: "Home"
+bannerVideos:
+  - id: "5Zg-C8AAIGg"
+    title: "The Beauty of Data Visualization"
+    description: "David McCandless on turning data into art"
+  - id: "ll5LY7wI_Xc"
+    title: "VIDA Research Overview"
+    description: "An introduction to our research areas"
+featured:
+  - type: "publication"
+    slug: "2020-gpu-spatial"
+  - type: "news"
+    slug: "2024-01-new-grant"
+  - type: "project"
+    slug: "vida-atlas"
+awards:
+  - slug: "2020-bugdoc"
+  - slug: "2023-best-paper"
+activeProjects:
+  - slug: "vida-atlas"
+  - slug: "urban-computing"
+---
+
+Welcome to the VIDA Center at NYU Tandon School of Engineering.
+```
+
+#### Getting YouTube Video IDs
+
+To add a video to the banner, you need the YouTube video ID:
+
+- From a standard URL: `https://www.youtube.com/watch?v=VIDEO_ID` → copy the `VIDEO_ID` part
+- From a short URL: `https://youtu.be/VIDEO_ID` → copy the `VIDEO_ID` part
+- Example: `https://www.youtube.com/watch?v=ll5LY7wI_Xc` → use `id: "ll5LY7wI_Xc"`
+
+#### Content References
+
+- **Featured items**: Can reference publications, news, or projects by their `slug` and `type`
+- **Awards**: Reference publications or projects that have won awards by their `slug`
+- **Active projects**: Reference active projects by their `slug`
+
+The homepage automatically pulls the latest news and publications dynamically, so you only need to configure the banner videos, featured highlights, awards, and active projects in this file.
+
 ## Images and Media
 
 ### External Images

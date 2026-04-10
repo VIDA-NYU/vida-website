@@ -6,41 +6,53 @@ import { getPeople } from "@/lib/people";
 import { getPublications } from "@/lib/publications";
 import { getLogEntries } from "@/lib/log";
 import { getProjects } from "@/lib/projects";
+import { getHomeData } from "@/lib/home";
 import Link from "next/link";
 import { PublicationCiteActions } from "@/components/publications/PublicationCiteActions";
 
 export default async function Home() {
-  const [people, publications, logEntries, projects] = await Promise.all([
+  const [people, publications, logEntries, projects, homeData] = await Promise.all([
     getPeople(),
     getPublications(),
     getLogEntries(),
     getProjects(),
+    getHomeData(),
   ]);
 
+  // Always latest for these
   const latestNews = logEntries.slice(0, 4);
-  const featuredPublications = publications.filter(p => p.featured).slice(0, 2);
-  const latestPublications = publications.filter(p => !p.featured).slice(0, 4);
-  const featuredProjects = projects.filter(p => p.status === "active").slice(0, 3);
-  
-  // Extract awards from publication bodies (simple text search)
-  const awardWinners = publications.filter(pub => 
-    pub.body.toLowerCase().includes('award') || 
-    pub.body.toLowerCase().includes('best paper') ||
-    pub.body.toLowerCase().includes('honorable mention')
-  ).slice(0, 4);
-  
-  // Combine featured content from different types for the hero section
-  const featuredContent = [
-    ...featuredPublications.map(p => ({ ...p, type: 'publication' as const, authors: p.authors, year: p.year, abstract: p.abstract, venue: p.venue, kind: p.kind })),
-    ...latestNews.slice(0, 2).map(n => ({ ...n, type: 'news' as const, date: n.date, summary: n.summary })),
-    ...featuredProjects.slice(0, 2).map(p => ({ ...p, type: 'project' as const, kind: p.kind, summary: p.summary, year: undefined }))
-  ].slice(0, 4);
+  const latestPublications = publications.slice(0, 4);
+
+  // MDX Controlled Sections
+  const featuredContent = homeData.featured.map(item => {
+    if (item.type === 'publication') {
+      const pub = publications.find(p => p.slug === item.slug);
+      if (pub) return { ...pub, type: 'publication' as const, authors: pub.authors, year: pub.year, abstract: pub.abstract, venue: pub.venue, kind: pub.kind };
+    }
+    if (item.type === 'news') {
+      const news = logEntries.find(n => n.slug === item.slug);
+      if (news) return { ...news, type: 'news' as const, date: news.date, summary: news.summary };
+    }
+    if (item.type === 'project') {
+      const proj = projects.find(p => p.slug === item.slug);
+      if (proj) return { ...proj, type: 'project' as const, kind: proj.kind, summary: proj.summary, year: undefined };
+    }
+    return null;
+  }).filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+  const awardWinners = homeData.awards.map(award => {
+    return publications.find(p => p.slug === award.slug);
+  }).filter((pub): pub is NonNullable<typeof pub> => Boolean(pub));
+
+  const featuredProjects = homeData.activeProjects.map(proj => {
+    return projects.find(p => p.slug === proj.slug);
+  }).filter((proj): proj is NonNullable<typeof proj> => Boolean(proj));
 
   return (
     <div className="">
       {/* Video Banner */}
       <section>
-        <VideoBanner />
+        <VideoBanner videos={homeData.bannerVideos} />
       </section>
 
       <div className="py-16 md:py-24">
