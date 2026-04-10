@@ -4,17 +4,15 @@ export type NavItem = {
 };
 
 export const primaryNav: NavItem[] = [
-  { label: "Mission", href: "/" },
+  { label: "Home", href: "/" },
   { label: "Research", href: "/research" },
-  { label: "Projects", href: "/projects" },
-  // { label: "Playground", href: "/playground" }, // temporarily hidden
   { label: "Publications", href: "/publications" },
-  { label: "Lab Atlas", href: "/lab-atlas" },
+  { label: "People", href: "/people" },
 ];
 
 export const moreNav: NavItem[] = [
-  { label: "Log", href: "/log" },
-  { label: "Open Lab", href: "/open-lab" },
+  { label: "News", href: "/log" },
+  { label: "Solutions", href: "/open-lab" },
   { label: "Newsletter", href: "/newsletter" },
   { label: "Contact", href: "/contact" },
 ];

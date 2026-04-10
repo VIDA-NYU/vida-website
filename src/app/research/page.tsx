@@ -1,8 +1,8 @@
-import { ResearchAreasSection } from "@/components/sections/research/ResearchAreasSection";
-import { getResearchAreas } from "@/lib/research-areas";
+import { ProjectsGrid } from "@/components/sections/projects/ProjectsGrid";
+import { getProjects } from "@/lib/projects";
 
 export default async function ResearchPage() {
-  const areas = await getResearchAreas();
+  const projects = await getProjects();
 
-  return <ResearchAreasSection areas={areas} />;
+  return <ProjectsGrid projects={projects} />;
 }

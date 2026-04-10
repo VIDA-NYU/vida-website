@@ -69,7 +69,7 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
               href={project.externalUrl}
               target="_blank"
               rel="noreferrer"
-              className="ml-auto inline-flex items-center rounded-full bg-purple-500 px-3 py-1 font-medium text-white transition-colors hover:bg-purple-400"
+              className="ml-auto inline-flex items-center rounded-md bg-blue-600 px-3 py-1 font-medium text-white transition-colors hover:bg-blue-500"
             >
               External site
             </Link>
@@ -79,7 +79,7 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
         <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">{project.summary}</p>
 
         {project.body && (
-          <div className="prose prose-zinc dark:prose-invert max-w-none prose-p:text-zinc-700 dark:prose-p:text-zinc-200 prose-a:text-purple-600 dark:prose-a:text-purple-300">
+          <div className="prose prose-zinc dark:prose-invert max-w-none prose-p:text-zinc-700 dark:prose-p:text-zinc-200 prose-a:text-blue-600 dark:prose-a:text-blue-400">
             {project.body}
           </div>
         )}
@@ -87,13 +87,13 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
         {/* Back button */}
         <div className="border-t border-zinc-200 dark:border-zinc-800 pt-6">
           <Link
-            href="/projects"
+            href="/research"
             className="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Back to Projects
+            Back to Research
           </Link>
         </div>
       </div>

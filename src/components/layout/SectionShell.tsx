@@ -4,34 +4,34 @@ export type PageTheme = "default" | "visualization" | "people" | "research" | "p
 
 const THEME_CONFIG: Record<PageTheme, { eyebrowColor: string; accentGradient: string; glowColor: string }> = {
   default: {
-    eyebrowColor: "text-purple-600 dark:text-purple-300",
-    accentGradient: "from-purple-500/30 via-transparent to-transparent",
-    glowColor: "bg-purple-500/10",
+    eyebrowColor: "text-zinc-600 dark:text-zinc-400",
+    accentGradient: "from-zinc-400/50 via-zinc-400/10 to-transparent",
+    glowColor: "bg-zinc-200/30 dark:bg-zinc-800/30",
   },
   visualization: {
-    eyebrowColor: "text-purple-600 dark:text-purple-300",
-    accentGradient: "from-purple-500/30 via-transparent to-transparent",
-    glowColor: "bg-purple-500/10",
+    eyebrowColor: "text-zinc-600 dark:text-zinc-400",
+    accentGradient: "from-zinc-400/50 via-zinc-400/10 to-transparent",
+    glowColor: "bg-zinc-200/30 dark:bg-zinc-800/30",
   },
   people: {
-    eyebrowColor: "text-purple-600 dark:text-purple-300",
-    accentGradient: "from-purple-500/30 via-transparent to-transparent",
-    glowColor: "bg-purple-500/10",
+    eyebrowColor: "text-zinc-600 dark:text-zinc-400",
+    accentGradient: "from-zinc-400/50 via-zinc-400/10 to-transparent",
+    glowColor: "bg-zinc-200/30 dark:bg-zinc-800/30",
   },
   research: {
-    eyebrowColor: "text-green-600 dark:text-green-300",
-    accentGradient: "from-green-500/30 via-transparent to-transparent",
-    glowColor: "bg-green-500/10",
+    eyebrowColor: "text-zinc-600 dark:text-zinc-400",
+    accentGradient: "from-zinc-400/50 via-zinc-400/10 to-transparent",
+    glowColor: "bg-zinc-200/30 dark:bg-zinc-800/30",
   },
   publications: {
-    eyebrowColor: "text-purple-600 dark:text-purple-300",
-    accentGradient: "from-purple-500/30 via-transparent to-transparent",
-    glowColor: "bg-purple-500/10",
+    eyebrowColor: "text-zinc-600 dark:text-zinc-400",
+    accentGradient: "from-zinc-400/50 via-zinc-400/10 to-transparent",
+    glowColor: "bg-zinc-200/30 dark:bg-zinc-800/30",
   },
   projects: {
-    eyebrowColor: "text-green-600 dark:text-green-300",
-    accentGradient: "from-green-500/30 via-transparent to-transparent",
-    glowColor: "bg-green-500/10",
+    eyebrowColor: "text-zinc-600 dark:text-zinc-400",
+    accentGradient: "from-zinc-400/50 via-zinc-400/10 to-transparent",
+    glowColor: "bg-zinc-200/30 dark:bg-zinc-800/30",
   },
 };
 
@@ -47,9 +47,6 @@ export function SectionShell({ title, eyebrow, theme = "default", children }: Se
   
   return (
     <section className="relative space-y-6">
-      {/* Subtle background glow */}
-      <div className={`pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full ${config.glowColor} blur-3xl dark:opacity-100 opacity-50`} />
-      
       <header className="relative space-y-1">
         {eyebrow ? (
           <p className={`text-xs font-semibold uppercase tracking-[0.25em] ${config.eyebrowColor}`}>

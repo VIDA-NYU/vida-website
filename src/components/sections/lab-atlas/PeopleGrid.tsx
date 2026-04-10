@@ -48,12 +48,11 @@ function getInitials(name: string): string {
 // Generate a consistent color based on name
 function getAvatarColor(name: string): string {
   const colors = [
-    "from-sky-500 to-cyan-500",
-    "from-violet-500 to-purple-500",
-    "from-emerald-500 to-teal-500",
-    "from-orange-500 to-amber-500",
-    "from-pink-500 to-rose-500",
-    "from-blue-500 to-indigo-500",
+    "from-zinc-400 to-zinc-500",
+    "from-slate-400 to-slate-500",
+    "from-gray-400 to-gray-500",
+    "from-neutral-400 to-neutral-500",
+    "from-stone-400 to-stone-500",
   ];
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
@@ -96,128 +95,84 @@ export function PeopleGrid({ people }: Props) {
   }, {});
 
   return (
-    <SectionShell title="Lab Atlas" eyebrow="People & Labs" theme="people">
-      <p>
-        A snapshot of the people and lab clusters that make up this space. The
-        collage for each lab gives a quick visual sense of who is there.
-      </p>
-      <div className="mt-6 space-y-6">
-        {/* Lab collages */}
-        {labs.map((lab) => {
-          const group = groups[lab];
-          return (
-            <section key={lab} className="space-y-3">
-              <div className="flex items-center justify-between gap-3">
-                <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-                  {lab}
-                </h2>
-                <span className="text-[11px] text-zinc-400">
-                  {group.length} people
-                </span>
-              </div>
-
-              {/* Lab collage */}
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {group.slice(0, 7).map((person, index) => (
-                    <div
-                      key={person.slug}
-                      className="h-8 w-8 overflow-hidden rounded-full border-2 border-white dark:border-zinc-900 bg-zinc-100 dark:bg-zinc-900"
-                      style={{ zIndex: group.length - index }}
-                    >
-                      <PersonAvatar person={person} size="sm" />
-                    </div>
-                  ))}
-                  {group.length > 7 && (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900 text-[10px] text-zinc-600 dark:text-zinc-300">
-                      +{group.length - 7}
-                    </div>
-                  )}
-                </div>
-                <span className="rounded-full bg-purple-100 dark:bg-sky-500/10 px-2 py-0.5 text-[10px] font-medium text-purple-700 dark:text-sky-200">
-                  {group.length} members
-                </span>
-              </div>
-            </section>
-          );
-        })}
-
+    <SectionShell title="People" eyebrow="Team">
+      <div className="mt-6 space-y-12">
         {/* Category sections */}
-        {CATEGORY_CONFIG.map(({ role, label, hideAvatar }) => {
-          const group = peopleByRole[role as CategoryRole] ?? [];
-          if (!group.length) return null;
+        <div className="pt-2">
+          <div className="space-y-12">
+            {CATEGORY_CONFIG.map(({ role, label, hideAvatar }) => {
+              const group = peopleByRole[role as CategoryRole] ?? [];
+              if (!group.length) return null;
 
-          return (
-            <section key={role} className="space-y-3">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-                {label}
-              </h2>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {group.map((person) => (
-                  <article
-                    key={person.slug}
-                    className="group flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/80 p-4 text-sm shadow-sm transition-all duration-200 hover:border-purple-300 dark:hover:border-violet-500/40 hover:shadow-lg hover:shadow-purple-100 dark:hover:shadow-violet-900/10"
-                  >
-                    <header className="flex items-start gap-3">
-                      <div className="mt-0.5 h-10 w-10 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                        {hideAvatar ? (
-                          <div className={`flex h-full w-full items-center justify-center text-xs font-semibold text-white bg-gradient-to-br ${getAvatarColor(person.name)}`}>
-                            {getInitials(person.name)}
+              return (
+                <section key={role} className="space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-zinc-500 border-b border-zinc-200 dark:border-zinc-800 pb-2">
+                    {label}
+                  </h3>
+                  <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {group.map((person) => (
+                      <article
+                        key={person.slug}
+                        className="group flex flex-col text-sm"
+                      >
+                        <header className="flex items-center gap-3">
+                          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
+                            {hideAvatar ? (
+                              <div className={`flex h-full w-full items-center justify-center text-sm font-semibold text-white bg-gradient-to-br ${getAvatarColor(person.name)}`}>
+                                {getInitials(person.name)}
+                              </div>
+                            ) : (
+                              <PersonAvatar person={person} size="md" />
+                            )}
                           </div>
-                        ) : (
-                          <PersonAvatar person={person} size="md" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 truncate">
+                              {person.name}
+                            </h4>
+                            {person.position ? (
+                              <p className="text-xs text-zinc-600 dark:text-zinc-400 truncate">
+                                {person.position}
+                              </p>
+                            ) : null}
+                            {person.lab ? (
+                              <p className="text-[11px] text-zinc-500 truncate">
+                                {person.lab}
+                              </p>
+                            ) : null}
+                          </div>
+                        </header>
+                        
+                        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1">
+                          {person.tags.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[11px] text-zinc-500 dark:text-zinc-400"
+                            >
+                              • {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {person.website && (
+                          <div className="mt-3">
+                            <Link
+                              href={person.website}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                            >
+                              Profile ↗
+                            </Link>
+                          </div>
                         )}
-                      </div>
-                      <h3 className="text-sm font-semibold tracking-tight text-zinc-800 dark:text-zinc-50">
-                        {person.name}
-                        {person.position ? (
-                          <span className="block text-xs font-normal text-zinc-600 dark:text-zinc-300">
-                            {person.position}
-                          </span>
-                        ) : null}
-                        {person.affiliation ? (
-                          <span className="block text-[11px] text-zinc-500">
-                            {person.affiliation}
-                          </span>
-                        ) : null}
-                        {person.lab ? (
-                          <span className="mt-0.5 inline-block rounded-full bg-zinc-100 dark:bg-zinc-900 px-2 py-0.5 text-[10px] font-normal text-zinc-600 dark:text-zinc-300">
-                            {person.lab}
-                          </span>
-                        ) : null}
-                      </h3>
-                    </header>
-                    {person.bio ? (
-                      <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
-                        {person.bio}
-                      </p>
-                    ) : null}
-                    <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
-                      {person.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-zinc-100 dark:bg-zinc-900 px-2 py-0.5 text-zinc-600 dark:text-zinc-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {person.website ? (
-                        <Link
-                          href={person.website}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-auto inline-flex items-center rounded-full bg-purple-500 px-2.5 py-0.5 font-medium text-white transition-colors hover:bg-purple-400"
-                        >
-                          Profile
-                        </Link>
-                      ) : null}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          );
-        })}
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </SectionShell>
   );

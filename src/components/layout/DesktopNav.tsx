@@ -14,11 +14,11 @@ function NavLink({ item, onClick }: { item: NavItem; onClick?: () => void }) {
     <Link
       href={item.href}
       onClick={onClick}
-      className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-950 md:text-sm
+      className={`inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-950 md:text-sm
         ${
           isActive
-            ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-50"
-            : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
+            ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50"
+            : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
         }
       `}
     >
@@ -57,7 +57,7 @@ export function DesktopNav() {
         <button
           type="button"
           onClick={() => setMoreOpen((open) => !open)}
-          className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-950 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
+          className="inline-flex items-center rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-950 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
           aria-haspopup="menu"
           aria-expanded={moreOpen}
         >
@@ -66,7 +66,7 @@ export function DesktopNav() {
         </button>
         {moreOpen && (
           <div
-            className="absolute right-0 z-20 mt-2 w-44 rounded-2xl border border-zinc-200 bg-white/90 p-1 text-sm shadow-lg backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-900/90"
+            className="absolute right-0 z-20 mt-2 w-44 rounded-xl border border-zinc-200 bg-white/95 p-1 text-sm shadow-md backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-900/95"
             role="menu"
           >
             {moreNav.map((item) => (

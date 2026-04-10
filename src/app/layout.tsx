@@ -38,7 +38,7 @@ export default function RootLayout({
             <FloatingNav />
             <div className="relative z-10 flex flex-1 flex-col">
               <SiteHeader />
-              <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-12 pt-4 md:px-6 md:pb-16 md:pt-8">
+              <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 pb-12 pt-4 sm:px-6 lg:px-10 xl:px-16 md:pb-16 md:pt-8">
                 {children}
               </main>
               <SiteFooter />

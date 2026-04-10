@@ -52,7 +52,7 @@ function ThreeDDemo({ item }: { item: PlaygroundItem }) {
     <div className="flex h-full flex-col">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-purple-600 dark:text-purple-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600 dark:text-zinc-400">
             {kindLabels[item.kind]}
           </p>
           <h2 className="mt-1 text-lg font-bold text-zinc-800 dark:text-zinc-50">
@@ -80,7 +80,7 @@ function VideoDemo({ item }: { item: PlaygroundItem }) {
   return (
     <div className="flex h-full flex-col">
       <div className="mb-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-purple-600 dark:text-purple-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600 dark:text-zinc-400">
           {kindLabels[item.kind]}
         </p>
         <h2 className="mt-1 text-base font-bold text-zinc-800 dark:text-zinc-50">
@@ -104,7 +104,7 @@ function VideoDemo({ item }: { item: PlaygroundItem }) {
       {item.relatedProject && (
         <Link
           href={`/projects/${item.relatedProject}`}
-          className="mt-2 inline-flex items-center text-xs font-medium text-purple-600 dark:text-purple-400 hover:text-purple-500"
+          className="mt-2 inline-flex items-center text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
         >
           View project details
         </Link>
@@ -136,7 +136,7 @@ function AudioDemo({ item }: { item: PlaygroundItem }) {
   return (
     <div className="flex h-full flex-col">
       <div className="mb-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-green-600 dark:text-green-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600 dark:text-zinc-400">
           {kindLabels[item.kind]}
         </p>
         <h2 className="mt-1 text-base font-bold text-zinc-800 dark:text-zinc-50">
@@ -153,11 +153,11 @@ function AudioDemo({ item }: { item: PlaygroundItem }) {
               key={index}
               className={`flex items-center gap-3 rounded-lg border p-3 transition-all ${
                 activeTrack === index
-                  ? "border-green-300 dark:border-green-500/40 bg-green-50 dark:bg-green-500/10"
+                  ? "border-zinc-400 dark:border-zinc-500 bg-zinc-100 dark:bg-zinc-800"
                   : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50"
               }`}
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-900">
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   {activeTrack === index ? (
                     <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
@@ -187,7 +187,7 @@ function AudioDemo({ item }: { item: PlaygroundItem }) {
       {item.relatedProject && (
         <Link
           href={`/projects/${item.relatedProject}`}
-          className="mt-3 inline-flex items-center text-xs font-medium text-green-600 dark:text-green-400 hover:text-green-500"
+          className="mt-3 inline-flex items-center text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
         >
           View project details
         </Link>
@@ -201,7 +201,7 @@ function ImageDemo({ item }: { item: PlaygroundItem }) {
   return (
     <div className="flex h-full flex-col">
       <div className="mb-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-purple-600 dark:text-purple-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600 dark:text-zinc-400">
           {kindLabels[item.kind]}
         </p>
         <h2 className="mt-1 text-base font-bold text-zinc-800 dark:text-zinc-50">
@@ -224,7 +224,7 @@ function ImageDemo({ item }: { item: PlaygroundItem }) {
       {item.relatedProject && (
         <Link
           href={`/projects/${item.relatedProject}`}
-          className="mt-2 inline-flex items-center text-xs font-medium text-purple-600 dark:text-purple-400 hover:text-purple-500"
+          className="mt-2 inline-flex items-center text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
         >
           View project details
         </Link>
@@ -254,7 +254,7 @@ function PlaygroundCard({ item, index }: { item: PlaygroundItem; index: number }
 
   return (
     <article
-      className={`${cardSize} rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-5 transition-all hover:border-purple-300 dark:hover:border-purple-500/30 hover:shadow-lg`}
+      className={`${cardSize} border-b border-zinc-200 dark:border-zinc-800 bg-transparent py-5 transition-all last:border-0`}
     >
       {renderContent()}
     </article>
@@ -264,7 +264,7 @@ function PlaygroundCard({ item, index }: { item: PlaygroundItem; index: number }
 export function PlaygroundGrid({ items }: Props) {
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center">
+      <div className="border border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center">
         <p className="text-zinc-500">No playground items available yet.</p>
       </div>
     );

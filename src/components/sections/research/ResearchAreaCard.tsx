@@ -6,12 +6,12 @@ import type { ResearchArea } from "@/lib/research-areas";
 
 // Research area to theme mapping
 const AREA_THEMES: Record<string, { gradient: string; icon: string; borderHover: string }> = {
-  "visualization": { gradient: "from-sky-600/20 to-cyan-600/10", icon: "📊", borderHover: "hover:border-sky-500/60" },
-  "imaging": { gradient: "from-rose-600/20 to-pink-600/10", icon: "🧠", borderHover: "hover:border-rose-500/60" },
-  "data-analysis": { gradient: "from-emerald-600/20 to-teal-600/10", icon: "💻", borderHover: "hover:border-emerald-500/60" },
+  "visualization": { gradient: "from-zinc-200 to-zinc-100 dark:from-zinc-800 dark:to-zinc-900", icon: "📊", borderHover: "hover:border-zinc-400 dark:hover:border-zinc-600" },
+  "imaging": { gradient: "from-zinc-200 to-zinc-100 dark:from-zinc-800 dark:to-zinc-900", icon: "🧠", borderHover: "hover:border-zinc-400 dark:hover:border-zinc-600" },
+  "data-analysis": { gradient: "from-zinc-200 to-zinc-100 dark:from-zinc-800 dark:to-zinc-900", icon: "💻", borderHover: "hover:border-zinc-400 dark:hover:border-zinc-600" },
 };
 
-const DEFAULT_THEME = { gradient: "from-violet-600/20 to-purple-600/10", icon: "🔬", borderHover: "hover:border-violet-500/60" };
+const DEFAULT_THEME = { gradient: "from-zinc-200 to-zinc-100 dark:from-zinc-800 dark:to-zinc-900", icon: "🔬", borderHover: "hover:border-zinc-400 dark:hover:border-zinc-600" };
 
 function getAreaTheme(slug: string) {
   return AREA_THEMES[slug] ?? DEFAULT_THEME;
@@ -62,52 +62,48 @@ export function ResearchAreaCard({ area }: Props) {
 
   return (
     <article
-      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 transition-all duration-300 ${theme.borderHover} hover:shadow-2xl hover:shadow-zinc-200/50 dark:hover:shadow-zinc-900/50`}
+      className={`group relative flex flex-col border-b border-zinc-200 dark:border-zinc-800 bg-transparent py-8 transition-all duration-300 last:border-0`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Hero image section */}
       {hasImage && (
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative mb-6 w-full aspect-video overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-900">
           <Image
             src={area.image!}
             alt={area.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-950 via-white/50 dark:via-zinc-950/50 to-transparent" />
-          
-          {/* Floating icon */}
-          <div className={`absolute bottom-4 left-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${theme.gradient.replace('/20', '/80').replace('/10', '/60')} text-2xl shadow-lg backdrop-blur-sm`}>
-            {theme.icon}
-          </div>
         </div>
       )}
       
-      <div className="relative flex flex-1 flex-col p-5">
+      <div className="relative flex flex-1 flex-col">
         <button
           type="button"
           className="flex-1 text-left md:cursor-default"
           onClick={() => setExpanded((prev) => !prev)}
         >
-          <header className="space-y-2">
-            {!hasImage && (
-              <span className="text-3xl">{theme.icon}</span>
-            )}
-            <h2 className="text-xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50 group-hover:text-green-600 dark:group-hover:text-emerald-300 transition-colors">
-              {area.title}
-            </h2>
+          <header className="space-y-3">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-xl">
+                {theme.icon}
+              </span>
+              <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {area.title}
+              </h2>
+            </div>
             {area.tags.length ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 pt-1">
                 {area.tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-green-100 dark:bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-green-700 dark:text-emerald-400">
-                    {tag}
+                  <span key={tag} className="text-xs text-zinc-500 dark:text-zinc-400">
+                    • {tag}
                   </span>
                 ))}
               </div>
             ) : null}
           </header>
-          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             {area.body}
           </p>
         </button>

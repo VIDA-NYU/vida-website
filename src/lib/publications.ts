@@ -14,6 +14,7 @@ export type Publication = {
   kind: "paper" | "preprint" | "thesis" | "talk";
   externalUrl?: string;
   doi?: string;
+  githubUrl?: string;
   tags: PublicationTag[];
   featured?: boolean;
   thumbnail?: string;
@@ -46,6 +47,7 @@ async function readPublicationFile(fileName: string): Promise<Publication> {
     kind: (data.kind as Publication["kind"]) ?? "paper",
     externalUrl: data.externalUrl as string | undefined,
     doi: data.doi as string | undefined,
+    githubUrl: data.githubUrl as string | undefined,
     tags,
     featured: data.featured as boolean | undefined,
     thumbnail: data.thumbnail as string | undefined,

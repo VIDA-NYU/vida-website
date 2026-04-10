@@ -4,64 +4,20 @@ import { SectionShell } from "@/components/layout/SectionShell";
 import { PublicationCiteActions } from "@/components/publications/PublicationCiteActions";
 import type { Publication } from "@/lib/publications";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
-// Tag to theme color mapping for visual variety
-const TAG_THEMES: Record<string, { bg: string; icon: string; accent: string }> = {
-  "visualization": { bg: "from-sky-600 to-cyan-500", icon: "📊", accent: "sky" },
-  "urban-data": { bg: "from-emerald-600 to-teal-500", icon: "🏙️", accent: "emerald" },
-  "machine-learning": { bg: "from-violet-600 to-purple-500", icon: "🤖", accent: "violet" },
-  "medical-imaging": { bg: "from-rose-600 to-pink-500", icon: "🧠", accent: "rose" },
-  "reproducibility": { bg: "from-amber-600 to-orange-500", icon: "🔄", accent: "amber" },
-  "fairness": { bg: "from-indigo-600 to-blue-500", icon: "⚖️", accent: "indigo" },
-  "data-management": { bg: "from-slate-600 to-zinc-500", icon: "📁", accent: "slate" },
-  "automl": { bg: "from-fuchsia-600 to-pink-500", icon: "⚡", accent: "fuchsia" },
-  "sports": { bg: "from-green-600 to-lime-500", icon: "⚽", accent: "green" },
-  "deep-learning": { bg: "from-red-600 to-orange-500", icon: "🧬", accent: "red" },
-  "public-health": { bg: "from-teal-600 to-cyan-500", icon: "🏥", accent: "teal" },
-  "explainability": { bg: "from-yellow-600 to-amber-500", icon: "💡", accent: "yellow" },
-  "neuroimaging": { bg: "from-pink-600 to-rose-500", icon: "🧠", accent: "pink" },
-  "spatial-data": { bg: "from-blue-600 to-indigo-500", icon: "🗺️", accent: "blue" },
-  "gpu": { bg: "from-green-600 to-emerald-500", icon: "💻", accent: "green" },
-  "ranking": { bg: "from-orange-600 to-red-500", icon: "📈", accent: "orange" },
-};
-
-const DEFAULT_THEME = { bg: "from-zinc-600 to-zinc-500", icon: "📄", accent: "zinc" };
-
-function getPublicationTheme(tags: string[]) {
-  for (const tag of tags) {
-    if (TAG_THEMES[tag]) return TAG_THEMES[tag];
-  }
-  return DEFAULT_THEME;
-}
-
-function PublicationIcon({ publication }: { publication: Publication }) {
-  const theme = getPublicationTheme(publication.tags);
-  
-  return (
-    <div className={`flex h-16 w-16 items-center justify-center rounded-lg bg-gradient-to-br ${theme.bg} text-2xl shadow-lg`}>
-      {theme.icon}
-    </div>
-  );
-}
+const ITEMS_PER_PAGE = 10;
 
 type Props = {
   publications: Publication[];
 };
-
-function groupByYear(publications: Publication[]): Record<number, Publication[]> {
-  return publications.reduce<Record<number, Publication[]>>((acc, pub) => {
-    if (!acc[pub.year]) acc[pub.year] = [];
-    acc[pub.year].push(pub);
-    return acc;
-  }, {});
-}
 
 export function PublicationsList({ publications }: Props) {
   const [query, setQuery] = useState("");
   const [yearFilter, setYearFilter] = useState<string>("all");
   const [kindFilter, setKindFilter] = useState<string>("all");
   const [tagFilter, setTagFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const allYears = useMemo(() => {
     const years = Array.from(new Set(publications.map((p) => p.year)));
@@ -98,47 +54,46 @@ export function PublicationsList({ publications }: Props) {
     });
   }, [publications, query, yearFilter, kindFilter, tagFilter]);
 
-  const groups = groupByYear(filtered);
-  const years = Object.keys(groups)
-    .map((y) => Number(y))
-    .sort((a, b) => b - a);
-
-  const totalCount = publications.length;
   const filteredCount = filtered.length;
+  const totalPages = Math.ceil(filteredCount / ITEMS_PER_PAGE);
+  const paginatedPublications = filtered.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
     <SectionShell title="Publications" eyebrow="Research Output" theme="publications">
-      <p className="text-zinc-600 dark:text-zinc-400">
-        Selected publications from the lab, organized by year. Use the search
-        and filters to quickly find relevant work.
-      </p>
 
       {/* Search and filters */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 dark:border-purple-500/30 bg-white dark:bg-zinc-900/90">
-        <div className="border-b border-zinc-200 dark:border-purple-500/20 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-3">
-          <div className="flex items-center gap-2">
-            <svg className="h-4 w-4 text-purple-500 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search publications by title, author, venue, or tag..."
-              className="flex-1 bg-transparent text-sm text-zinc-800 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none"
-            />
-            <span className="rounded-full bg-purple-100 dark:bg-purple-500/20 px-2 py-0.5 text-[10px] font-semibold text-purple-700 dark:text-purple-300">
-              {filteredCount} results
-            </span>
-          </div>
+      <div className="mt-6 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+        <div className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-2">
+          <svg className="h-4 w-4 text-zinc-500 dark:text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setCurrentPage(1);
+            }}
+            placeholder="Search publications by title, author, venue, or tag..."
+            className="flex-1 bg-transparent text-sm text-zinc-800 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none"
+          />
+          <span className="rounded-md bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[10px] font-medium text-zinc-600 dark:text-zinc-300">
+            {filteredCount} results
+          </span>
         </div>
         
-        <div className="flex flex-wrap items-center gap-3 p-4">
+        <div className="mt-4 flex flex-wrap items-center gap-6">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Year</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">Year:</span>
             <select
               value={yearFilter}
-              onChange={(e) => setYearFilter(e.target.value)}
-              className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-50 focus:border-purple-500 focus:outline-none"
+              onChange={(e) => {
+                setYearFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="border-none bg-transparent text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none cursor-pointer"
             >
               <option value="all">All</option>
               {allYears.map((year) => (
@@ -148,11 +103,14 @@ export function PublicationsList({ publications }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Type</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">Type:</span>
             <select
               value={kindFilter}
-              onChange={(e) => setKindFilter(e.target.value)}
-              className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-50 focus:border-purple-500 focus:outline-none"
+              onChange={(e) => {
+                setKindFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="border-none bg-transparent text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none cursor-pointer"
             >
               <option value="all">All</option>
               <option value="paper">Papers</option>
@@ -163,11 +121,14 @@ export function PublicationsList({ publications }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Topic</span>
+            <span className="text-sm text-zinc-600 dark:text-zinc-400">Topic:</span>
             <select
               value={tagFilter}
-              onChange={(e) => setTagFilter(e.target.value)}
-              className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-50 focus:border-purple-500 focus:outline-none"
+              onChange={(e) => {
+                setTagFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="border-none bg-transparent text-sm font-medium text-zinc-900 dark:text-zinc-100 focus:outline-none cursor-pointer"
             >
               <option value="all">All</option>
               {allTags.map((tag) => (
@@ -183,8 +144,9 @@ export function PublicationsList({ publications }: Props) {
                 setKindFilter("all");
                 setTagFilter("all");
                 setQuery("");
+                setCurrentPage(1);
               }}
-              className="ml-auto text-[11px] font-medium text-purple-600 dark:text-purple-400 hover:text-purple-500"
+              className="ml-auto text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:underline"
             >
               Clear filters
             </button>
@@ -192,94 +154,90 @@ export function PublicationsList({ publications }: Props) {
         </div>
       </div>
 
-      {/* Publications timeline */}
-      <div className="mt-8 space-y-8">
-        {years.map((year) => (
-          <section key={year} className="relative">
-            {/* Year marker */}
-            <div className="sticky top-16 z-10 mb-4 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-lg font-bold text-white shadow-lg shadow-purple-500/25">
-                {year.toString().slice(-2)}
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-zinc-800 dark:text-zinc-50">{year}</h2>
-                <p className="text-xs text-zinc-500">{groups[year].length} publications</p>
-              </div>
+      {/* Publications List */}
+      <div className="mt-8 flex flex-col space-y-6">
+        {paginatedPublications.map((pub) => (
+          <article
+            key={pub.slug}
+            className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-6 last:border-0"
+          >
+            <Link href={`/publications/${pub.slug}`} className="block">
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                {pub.title}
+              </h3>
+            </Link>
+            
+            <div className="text-sm text-zinc-600 dark:text-zinc-300">
+              {pub.authors.length > 0 && (
+                <span>{pub.authors.join(", ")} • </span>
+              )}
+              <span className="text-zinc-500 dark:text-zinc-400">
+                {pub.venue ? `${pub.venue} (${pub.year})` : pub.year}
+              </span>
             </div>
             
-            {/* Publications list */}
-            <div className="ml-6 space-y-3 border-l-2 border-purple-200 dark:border-purple-500/20 pl-6">
-              {groups[year].map((pub) => {
-                const theme = getPublicationTheme(pub.tags);
-                return (
-                  <article
-                    key={pub.slug}
-                    className="group relative rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/80 p-4 transition-all duration-200 hover:border-purple-300 dark:hover:border-purple-500/40 hover:shadow-md"
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute -left-[31px] top-5 h-3 w-3 rounded-full border-2 border-purple-300 dark:border-purple-500/50 bg-white dark:bg-zinc-950" />
-                    
-                    <div className="flex gap-4">
-                      {/* Icon */}
-                      <div className={`hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${theme.bg} text-xl shadow-md sm:flex`}>
-                        {theme.icon}
-                      </div>
-                      
-                      <div className="min-w-0 flex-1">
-                        <Link href={`/publications/${pub.slug}`} className="block">
-                          <h3 className="font-semibold leading-snug text-zinc-800 dark:text-zinc-50 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
-                            {pub.title}
-                          </h3>
-                        </Link>
-                        {pub.authors.length > 0 && (
-                          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-                            {pub.authors.join(", ")}
-                          </p>
-                        )}
-                        {pub.venue && (
-                          <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-purple-600 dark:text-purple-400/80">
-                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                            </svg>
-                            {pub.venue}
-                          </p>
-                        )}
-                        
-                        <div className="mt-3 flex flex-wrap items-center gap-2">
-                          {pub.tags.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-600 dark:text-zinc-400"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                          <Link
-                            href={`/publications/${pub.slug}`}
-                            className="ml-auto inline-flex items-center gap-1 rounded-full bg-purple-500 px-3 py-1 text-[11px] font-semibold text-white transition-all hover:bg-purple-400"
-                          >
-                            View details
-                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </Link>
-                        </div>
-
-                        <div className="mt-3">
-                          <PublicationCiteActions cite={pub.cite} bibtex={pub.bibtex} />
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <Link
+                href={`/publications/${pub.slug}`}
+                className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:underline"
+              >
+                Details
+              </Link>
+              {pub.githubUrl && (
+                <Link
+                  href={pub.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:underline"
+                >
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                  </svg>
+                  Code
+                </Link>
+              )}
+              {pub.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs text-zinc-400 dark:text-zinc-500"
+                >
+                  • {tag}
+                </span>
+              ))}
             </div>
-          </section>
+
+            <div className="mt-2">
+              <PublicationCiteActions cite={pub.cite} bibtex={pub.bibtex} />
+            </div>
+          </article>
         ))}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-8 flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 pt-6">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="rounded-md border border-zinc-200 dark:border-zinc-800 px-4 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 disabled:opacity-50 dark:text-zinc-300 dark:hover:bg-zinc-900"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-zinc-500">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="rounded-md border border-zinc-200 dark:border-zinc-800 px-4 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 disabled:opacity-50 dark:text-zinc-300 dark:hover:bg-zinc-900"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
       
       {filtered.length === 0 && (
-        <div className="mt-8 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center">
+        <div className="mt-8 border border-dashed border-zinc-300 dark:border-zinc-700 p-12 text-center">
           <p className="text-zinc-500">No publications found matching your criteria.</p>
         </div>
       )}
