@@ -62,7 +62,7 @@ async function readPublicationFile(fileName: string): Promise<Publication> {
 
 export async function getPublications(): Promise<Publication[]> {
   const entries = await fs.readdir(PUBLICATIONS_DIR);
-  const mdxFiles = entries.filter((file) => file.endsWith(".mdx"));
+  const mdxFiles = entries.filter((file) => file.endsWith(".mdx") || file.endsWith(".md"));
 
   const pubs = await Promise.all(mdxFiles.map((file) => readPublicationFile(file)));
 
@@ -74,7 +74,7 @@ export async function getPublications(): Promise<Publication[]> {
 
 export async function getPublicationBySlug(slug: string): Promise<Publication | null> {
   const entries = await fs.readdir(PUBLICATIONS_DIR);
-  const mdxFiles = entries.filter((file) => file.endsWith(".mdx"));
+  const mdxFiles = entries.filter((file) => file.endsWith(".mdx") || file.endsWith(".md"));
 
   for (const file of mdxFiles) {
     const pub = await readPublicationFile(file);
