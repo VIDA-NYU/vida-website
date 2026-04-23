@@ -1,5 +1,7 @@
 # VIDA Website
 
+[Vida Website](https://vida-website.pages.dev/) 
+
 The official website for the Visualization Imaging and Data Analysis (VIDA) Center at NYU Tandon School of Engineering.
 
 Built with Next.js 15, TypeScript, and Tailwind CSS.
