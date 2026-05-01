@@ -40,9 +40,21 @@ export default async function Home() {
     return null;
   }).filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-  const awardWinners = homeData.awards.map(award => {
-    return publications.find(p => p.slug === award.slug);
-  }).filter((pub): pub is NonNullable<typeof pub> => Boolean(pub));
+  const awardItems = homeData.awards.map(award => {
+    if (award.type === 'publication') {
+      const pub = publications.find(p => p.slug === award.slug);
+      if (pub) return { ...pub, type: 'publication' as const };
+    }
+    if (award.type === 'news') {
+      const news = logEntries.find(n => n.slug === award.slug);
+      if (news) return { ...news, type: 'news' as const };
+    }
+    if (award.type === 'project') {
+      const proj = projects.find(p => p.slug === award.slug);
+      if (proj) return { ...proj, type: 'project' as const };
+    }
+    return null;
+  }).filter((item): item is NonNullable<typeof item> => Boolean(item));
 
   const featuredProjects = homeData.activeProjects.map(proj => {
     return projects.find(p => p.slug === proj.slug);
@@ -157,7 +169,7 @@ export default async function Home() {
       )}
 
       {/* Awards Section - Expanded */}
-      {awardWinners.length > 0 && (
+      {awardItems.length > 0 && (
         <section className="relative bg-purple-100 dark:bg-purple-950/30 py-20">
           <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-12">
@@ -169,23 +181,31 @@ export default async function Home() {
               </h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {awardWinners.map((pub) => (
-                <Link
-                  key={pub.slug}
-                  href={`/publications/${pub.slug}`}
-                  className="group"
-                >
-                  <div className="text-5xl md:text-6xl font-bold text-purple-600 dark:text-purple-400 mb-3 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors">
-                    {pub.year}
-                  </div>
-                  <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors mb-2 line-clamp-2">
-                    {pub.title}
-                  </h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                    {pub.venue || pub.kind}
-                  </p>
-                </Link>
-              ))}
+              {awardItems.map((item) => {
+                const href = item.type === 'publication' ? `/publications/${item.slug}` :
+                             item.type === 'news' ? `/news/${item.slug}` :
+                             `/research/${item.slug}`;
+                const year = 'year' in item && item.year ? String(item.year) :
+                             'date' in item ? item.date.slice(0, 4) : '';
+                const subtitle = item.type === 'publication'
+                  ? (('venue' in item && item.venue) || item.kind)
+                  : item.type === 'news'
+                  ? ('summary' in item && item.summary ? item.summary : item.kind)
+                  : ('summary' in item && item.summary ? item.summary : ('kind' in item ? item.kind : ''));
+                return (
+                  <Link key={item.slug} href={href} className="group">
+                    <div className="text-5xl md:text-6xl font-bold text-purple-600 dark:text-purple-400 mb-3 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors">
+                      {year}
+                    </div>
+                    <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors mb-2 line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">
+                      {subtitle}
+                    </p>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>

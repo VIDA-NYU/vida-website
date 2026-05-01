@@ -15,10 +15,15 @@ export type FeaturedItem = {
   slug: string;
 };
 
+export type AwardItem = {
+  type: "publication" | "news" | "project";
+  slug: string;
+};
+
 export type HomeData = {
   bannerVideos: BannerVideo[];
   featured: FeaturedItem[];
-  awards: { slug: string }[];
+  awards: AwardItem[];
   activeProjects: { slug: string }[];
   body: string;
 };
@@ -31,7 +36,7 @@ export async function getHomeData(): Promise<HomeData> {
   return {
     bannerVideos: (data.bannerVideos as BannerVideo[]) ?? [],
     featured: (data.featured as FeaturedItem[]) ?? [],
-    awards: (data.awards as { slug: string }[]) ?? [],
+    awards: (data.awards as AwardItem[]) ?? [],
     activeProjects: (data.activeProjects as { slug: string }[]) ?? [],
     body: content.trim(),
   };
