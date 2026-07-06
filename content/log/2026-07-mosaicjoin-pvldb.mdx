@@ -1,0 +1,14 @@
+---
+slug: "2026-07-mosaicjoin-pvldb"
+title: "MosaicJoin: Compact Semantic Sketches for Value-Level Join Discovery Accepted to PVLDB"
+date: "2026-07-03"
+kind: "news"
+summary: "MosaicJoin: Compact Semantic Sketches for Value-Level Join Discovery, co-authored by Grace Fan, Majid Daliri, and Eden Wu, has been accepted by PVLDB."
+link: ""
+image: "https://pbs.twimg.com/profile_images/1608638498159972352/j7m6CRte_400x400.jpg"
+video: ""
+---
+
+"MosaicJoin: Compact Semantic Sketches for Value-Level Join Discovery" was accepted to PVLDB! Congrats to Grace Fan, Eden Wu, and Majid Daliri.
+
+The paper is about semantic join discovery, finding columns in a data lake that can be joined even when the values don't match exactly (think "NYC" vs "New York City"). Existing methods force you to choose: compare values directly to get accuracy but no scalability, or compress each column into a single embedding to get speed but lose the value-level detail that actually tells you whether a join works. MosaicJoin gets both, using a sketching approach that estimates joinability without comparing every value pair, plus a subsampling trick with accuracy guarantees for large query columns. It beats prior methods on every benchmark we tried and is up to 66x faster, with no training needed.
