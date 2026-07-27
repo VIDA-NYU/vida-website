@@ -1,10 +1,10 @@
 ---
 slug: "urban-mapper"
-title: "Urban Mapper"
+title: "UrbanMapper"
 kind: "tool"
-summary: "A tool for mapping and analyzing urban environments using geospatial data and visualization techniques."
+summary: "Enrich typically plain urban layers with datasets in a reproducible, shareable, and easily updatable way using minimal code."
 status: "active"
-externalUrl: "https://github.com/VIDA-NYU/urban-mapper"
+externalUrl: "https://github.com/VIDA-NYU/UrbanMapper"
 relatedAreas:
   - "visualization"
 tags:
@@ -14,11 +14,4 @@ tags:
 image: "https://camo.githubusercontent.com/359ab46c28cbd3446b4dcc0b2a7aa9aacb5d011420e668cac56ae87113bebda4/68747470733a2f2f692e696d6775722e636f6d2f685a32586b724e2e706e67"
 ---
 
-Urban Mapper provides tools for mapping and analyzing urban environments. It combines geospatial data processing with interactive visualization to help researchers and urban planners understand city dynamics.
-
-## Features
-
-- Geospatial data processing and analysis
-- Interactive map-based visualization
-- Support for multiple data formats
-- Integration with urban data sources
+`UrbanMapper` is a Python toolkit that enriches typically plain urban layers (e.g., Streets, Sidewalks, Intersections and more) with real-world urban datasets in a reproducible, shareable, and easily updatable way using minimal code. Formally, it defines a spatial enrichment function $f(X, Y) = X \bowtie Y$, where $X$ represents urban layers (e.g., Streets, Sidewalks, Intersections) and $Y$ is a user-provided dataset (e.g., traffic events, sensor data). Features include the Urban Pipeline: A Scikit-Learn–style pipeline to compute and enrich data in under 15 lines of code allowing you to share and update pipelines like trained models. Urban Layers Supported: Out-of-the-box support for loading street networks and boundaries from OpenStreetMap (via OSMNx) or pedestrian infrastructure (e.g., sidewalks, crosswalks) via Tile2Net, and more. Step-by-Step API: A flexible architecture featuring Loader (loading any type of Geospatial data), Urban Layer, Imputer (dealing with missing values in Geospatial datasets such as missing coordinates), Filter (reordering boundaries of the analysis), Enricher (spatially joining and linking user-defined datasets to the urban layers), and Visualiser (plotting and exporting the enriched results to interactive maps) modules.
